@@ -69,7 +69,7 @@ public class InvoiceService {
     }
 
     private void validateTitle(String title) {
-        if (title == null || title.length() == 0) {
+        if (title == null || title.trim().length() == 0) {
             throw new IllegalArgumentException("title must not be empty.");
         }
     }

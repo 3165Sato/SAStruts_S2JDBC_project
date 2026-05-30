@@ -1,7 +1,10 @@
 package org.seasar.sastruts.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 
@@ -81,6 +84,35 @@ public class InvoiceServiceTest {
         invoiceService.register("", BigDecimal.valueOf(1000L));
     }
 
+    // タイトルが半角スペースのみの場合に登録できないことを確認する。
+    @Test(expected = IllegalArgumentException.class)
+    public void testRegisterTitleOnlySpaces() {
+        invoiceService.register("   ", BigDecimal.valueOf(1000L));
+    }
+
+    // 複数の請求書を登録した場合にIDが重複しないことを確認する。
+    @Test
+    public void testRegisterMultipleInvoicesIdIsUnique() {
+        Invoice first = invoiceService.register("first invoice", BigDecimal.valueOf(1000L));
+        Invoice second = invoiceService.register("second invoice", BigDecimal.valueOf(2000L));
+
+        assertNotNull(first.getId());
+        assertNotNull(second.getId());
+        assertFalse(first.getId().equals(second.getId()));
+    }
+
+    // 請求書IDがnullの場合にfindByIdがnullを返すことを確認する。
+    @Test
+    public void testFindByIdNull() {
+        assertNull(invoiceService.findById(null));
+    }
+
+    // 存在しない請求書IDの場合にfindByIdがnullを返すことを確認する。
+    @Test
+    public void testFindByIdNotFound() {
+        assertNull(invoiceService.findById(Long.valueOf(999L)));
+    }
+
     // 未承認の請求書を承認済みに変更できることを確認する。
     @Test
     public void testApproveUnapprovedInvoice() {
@@ -126,6 +158,20 @@ public class InvoiceServiceTest {
         Invoice invoice = registerPaymentConfirmedInvoice();
 
         invoiceService.approve(invoice.getId());
+    }
+
+    // 承認できない場合に請求書ステータスが変更されないことを確認する。
+    @Test
+    public void testApproveFailureDoesNotChangeStatus() {
+        Invoice invoice = registerRejectedInvoice();
+
+        try {
+            invoiceService.approve(invoice.getId());
+            fail("Expected IllegalStateException.");
+        } catch (IllegalStateException e) {
+            assertEquals(InvoiceStatus.REJECTED, invoice.getStatus());
+            assertEquals(InvoiceStatus.REJECTED, invoiceService.findById(invoice.getId()).getStatus());
+        }
     }
 
     // 未承認の請求書を差戻しに変更できることを確認する。
@@ -175,6 +221,20 @@ public class InvoiceServiceTest {
         invoiceService.reject(invoice.getId());
     }
 
+    // 差戻しできない場合に請求書ステータスが変更されないことを確認する。
+    @Test
+    public void testRejectFailureDoesNotChangeStatus() {
+        Invoice invoice = registerApprovedInvoice();
+
+        try {
+            invoiceService.reject(invoice.getId());
+            fail("Expected IllegalStateException.");
+        } catch (IllegalStateException e) {
+            assertEquals(InvoiceStatus.APPROVED, invoice.getStatus());
+            assertEquals(InvoiceStatus.APPROVED, invoiceService.findById(invoice.getId()).getStatus());
+        }
+    }
+
     // 承認済みの請求書を支払確定に変更できることを確認する。
     @Test
     public void testConfirmPaymentApprovedInvoice() {
@@ -220,6 +280,20 @@ public class InvoiceServiceTest {
         Invoice invoice = registerPaymentConfirmedInvoice();
 
         invoiceService.confirmPayment(invoice.getId());
+    }
+
+    // 支払確定できない場合に請求書ステータスが変更されないことを確認する。
+    @Test
+    public void testConfirmPaymentFailureDoesNotChangeStatus() {
+        Invoice invoice = registerUnapprovedInvoice();
+
+        try {
+            invoiceService.confirmPayment(invoice.getId());
+            fail("Expected IllegalStateException.");
+        } catch (IllegalStateException e) {
+            assertEquals(InvoiceStatus.UNAPPROVED, invoice.getStatus());
+            assertEquals(InvoiceStatus.UNAPPROVED, invoiceService.findById(invoice.getId()).getStatus());
+        }
     }
 
     // 未承認の請求書の金額を変更でき、ステータスが未承認のままであることを確認する。
@@ -302,6 +376,38 @@ public class InvoiceServiceTest {
         Invoice invoice = registerPaymentConfirmedInvoice();
 
         invoiceService.changeAmount(invoice.getId(), BigDecimal.valueOf(2000L));
+    }
+
+    // 金額変更できない状態の場合に金額とステータスが変更されないことを確認する。
+    @Test
+    public void testChangeAmountFailureDoesNotChangeAmountAndStatus() {
+        Invoice invoice = registerApprovedInvoice();
+
+        try {
+            invoiceService.changeAmount(invoice.getId(), BigDecimal.valueOf(2000L));
+            fail("Expected IllegalStateException.");
+        } catch (IllegalStateException e) {
+            assertEquals(BigDecimal.valueOf(1000L), invoice.getAmount());
+            assertEquals(InvoiceStatus.APPROVED, invoice.getStatus());
+            assertEquals(BigDecimal.valueOf(1000L), invoiceService.findById(invoice.getId()).getAmount());
+            assertEquals(InvoiceStatus.APPROVED, invoiceService.findById(invoice.getId()).getStatus());
+        }
+    }
+
+    // 変更後金額が不正な場合に金額とステータスが変更されないことを確認する。
+    @Test
+    public void testChangeAmountInvalidAmountDoesNotChangeAmountAndStatus() {
+        Invoice invoice = registerUnapprovedInvoice();
+
+        try {
+            invoiceService.changeAmount(invoice.getId(), BigDecimal.ZERO);
+            fail("Expected IllegalArgumentException.");
+        } catch (IllegalArgumentException e) {
+            assertEquals(BigDecimal.valueOf(1000L), invoice.getAmount());
+            assertEquals(InvoiceStatus.UNAPPROVED, invoice.getStatus());
+            assertEquals(BigDecimal.valueOf(1000L), invoiceService.findById(invoice.getId()).getAmount());
+            assertEquals(InvoiceStatus.UNAPPROVED, invoiceService.findById(invoice.getId()).getStatus());
+        }
     }
 
     private Invoice registerUnapprovedInvoice() {
