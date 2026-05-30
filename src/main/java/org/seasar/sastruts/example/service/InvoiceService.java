@@ -27,19 +27,32 @@ public class InvoiceService {
     }
 
     public Invoice approve(Long invoiceId) {
-        if (invoiceId == null) {
-            throw new IllegalArgumentException("invoiceId must not be null.");
-        }
-
-        Invoice invoice = findById(invoiceId);
-        if (invoice == null) {
-            throw new IllegalArgumentException("invoice does not exist.");
-        }
-        if (InvoiceStatus.APPROVED == invoice.getStatus()) {
-            throw new IllegalStateException("invoice is already approved.");
-        }
-
+        Invoice invoice = findRequiredInvoice(invoiceId);
+        requireStatus(invoice, InvoiceStatus.UNAPPROVED, "invoice can not be approved.");
         invoice.setStatus(InvoiceStatus.APPROVED);
+        return invoice;
+    }
+
+    public Invoice reject(Long invoiceId) {
+        Invoice invoice = findRequiredInvoice(invoiceId);
+        requireStatus(invoice, InvoiceStatus.UNAPPROVED, "invoice can not be rejected.");
+        invoice.setStatus(InvoiceStatus.REJECTED);
+        return invoice;
+    }
+
+    public Invoice confirmPayment(Long invoiceId) {
+        Invoice invoice = findRequiredInvoice(invoiceId);
+        requireStatus(invoice, InvoiceStatus.APPROVED, "invoice payment can not be confirmed.");
+        invoice.setStatus(InvoiceStatus.PAYMENT_CONFIRMED);
+        return invoice;
+    }
+
+    public Invoice changeAmount(Long invoiceId, BigDecimal amount) {
+        validateAmount(amount);
+
+        Invoice invoice = findRequiredInvoice(invoiceId);
+        requireStatus(invoice, InvoiceStatus.UNAPPROVED, "invoice amount can not be changed.");
+        invoice.setAmount(amount);
         return invoice;
     }
 
@@ -67,6 +80,24 @@ public class InvoiceService {
         }
         if (BigDecimal.ZERO.compareTo(amount) >= 0) {
             throw new IllegalArgumentException("amount must be greater than zero.");
+        }
+    }
+
+    private Invoice findRequiredInvoice(Long invoiceId) {
+        if (invoiceId == null) {
+            throw new IllegalArgumentException("invoiceId must not be null.");
+        }
+
+        Invoice invoice = findById(invoiceId);
+        if (invoice == null) {
+            throw new IllegalArgumentException("invoice does not exist.");
+        }
+        return invoice;
+    }
+
+    private void requireStatus(Invoice invoice, InvoiceStatus expectedStatus, String message) {
+        if (expectedStatus != invoice.getStatus()) {
+            throw new IllegalStateException(message);
         }
     }
 }
