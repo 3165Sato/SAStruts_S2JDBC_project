@@ -1,4 +1,8 @@
 org\seasar\sastruts\example\entity\Invoice.class
+org\seasar\sastruts\example\service\InvoiceAmountLogic.class
+org\seasar\sastruts\example\service\InvoiceValidationLogic.class
+org\seasar\sastruts\example\service\InvoiceStore.class
+org\seasar\sastruts\example\service\InvoiceWorkflowLogic.class
 org\seasar\sastruts\example\entity\InvoiceStatus.class
 org\seasar\sastruts\example\action\IndexAction.class
 org\seasar\sastruts\example\service\InvoiceService.class
