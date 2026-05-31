@@ -12,6 +12,7 @@ import org.seasar.extension.jdbc.JdbcManager;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.sastruts.example.entity.DbInvoice;
+import org.seasar.sastruts.example.testsupport.DbInvoiceFixture;
 import org.seasar.sastruts.example.testsupport.DbInvoiceTestDataBuilder;
 
 @RunWith(Seasar2.class)
@@ -21,10 +22,13 @@ public class DbInvoiceServiceTest {
 
     public JdbcManager jdbcManager;
 
+    private DbInvoiceFixture dbInvoiceFixture;
+
     @PostBindFields
     public void setUp() {
         assertNotNull(dbInvoiceService);
         assertNotNull(jdbcManager);
+        dbInvoiceFixture = new DbInvoiceFixture(dbInvoiceService);
         dropTable();
         createTable();
     }
@@ -43,8 +47,7 @@ public class DbInvoiceServiceTest {
     // 登録したDbInvoiceをIDで取得できることを確認する。
     @Test
     public void testFindById() {
-        DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
-        dbInvoiceService.insert(invoice);
+        dbInvoiceFixture.insertUnapprovedInvoice(Long.valueOf(1L));
 
         DbInvoice found = dbInvoiceService.findById(Long.valueOf(1L));
 
@@ -58,8 +61,7 @@ public class DbInvoiceServiceTest {
     // updateStatusでDbInvoiceのステータスを更新できることを確認する。
     @Test
     public void testUpdateStatus() {
-        DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
-        dbInvoiceService.insert(invoice);
+        dbInvoiceFixture.insertUnapprovedInvoice(Long.valueOf(1L));
 
         int updated = dbInvoiceService.updateStatus(Long.valueOf(1L), "APPROVED");
         DbInvoice found = dbInvoiceService.findById(Long.valueOf(1L));
@@ -71,9 +73,9 @@ public class DbInvoiceServiceTest {
     // countで登録件数を取得できることを確認する。
     @Test
     public void testCount() {
-        dbInvoiceService.insert(DbInvoiceTestDataBuilder.invoice(
+        dbInvoiceFixture.insertInvoice(DbInvoiceTestDataBuilder.invoice(
                 Long.valueOf(1L), "first invoice", BigDecimal.valueOf(1000L), "UNAPPROVED"));
-        dbInvoiceService.insert(DbInvoiceTestDataBuilder.invoice(
+        dbInvoiceFixture.insertInvoice(DbInvoiceTestDataBuilder.invoice(
                 Long.valueOf(2L), "second invoice", BigDecimal.valueOf(2000L), "APPROVED"));
 
         assertEquals(2L, dbInvoiceService.count());

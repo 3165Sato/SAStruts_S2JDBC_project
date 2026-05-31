@@ -1,4 +1,5 @@
 org\seasar\sastruts\example\service\DbInvoiceServiceTest.class
+org\seasar\sastruts\example\testsupport\DbInvoiceFixture.class
 org\seasar\sastruts\example\testsupport\DbInvoiceTestDataBuilder.class
 org\seasar\sastruts\example\service\InvoiceServiceTest.class
 org\seasar\sastruts\example\service\InvoiceValidationLogicTest.class
