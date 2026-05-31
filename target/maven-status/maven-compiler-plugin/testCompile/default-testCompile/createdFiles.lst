@@ -3,6 +3,7 @@ org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.class
 org\seasar\sastruts\example\testsupport\DbInvoiceTestDataBuilder.class
 org\seasar\sastruts\example\service\DbInvoiceScenarioFixtureTest.class
 org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest.class
+org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest$1.class
 org\seasar\sastruts\example\service\InvoiceValidationLogicTest.class
 org\seasar\sastruts\example\testsupport\DbScenarioInvoiceTestDataBuilder.class
 org\seasar\sastruts\example\service\InvoiceStoreTest.class
@@ -12,6 +13,7 @@ org\seasar\sastruts\example\testsupport\DbInvoiceFixture.class
 org\seasar\sastruts\example\testsupport\DbInvoiceScenario.class
 org\seasar\sastruts\example\testsupport\SqlTestSupport.class
 org\seasar\sastruts\example\service\InvoiceServiceTest.class
+org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest$FailingDbApprovalHistoryService.class
 org\seasar\sastruts\example\testsupport\DbCustomerTestDataBuilder.class
 org\seasar\sastruts\example\testsupport\DbInvoiceScenarioFixture.class
 org\seasar\sastruts\example\testsupport\DbApprovalHistoryTestDataBuilder.class
