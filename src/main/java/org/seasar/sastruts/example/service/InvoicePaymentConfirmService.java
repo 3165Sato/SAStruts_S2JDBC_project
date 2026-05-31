@@ -2,6 +2,8 @@ package org.seasar.sastruts.example.service;
 
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
+import org.seasar.sastruts.example.logic.InvoicePaymentConfirmValidationLogic;
+import org.seasar.sastruts.example.logic.InvoicePaymentHistoryLogic;
 
 public class InvoicePaymentConfirmService {
 
@@ -9,10 +11,9 @@ public class InvoicePaymentConfirmService {
 
     public DbApprovalHistoryService dbApprovalHistoryService;
 
-    private final InvoicePaymentConfirmValidationLogic invoicePaymentConfirmValidationLogic =
-            new InvoicePaymentConfirmValidationLogic();
+    public InvoicePaymentConfirmValidationLogic invoicePaymentConfirmValidationLogic;
 
-    private final InvoicePaymentHistoryLogic invoicePaymentHistoryLogic = new InvoicePaymentHistoryLogic();
+    public InvoicePaymentHistoryLogic invoicePaymentHistoryLogic;
 
     public DbScenarioInvoice confirmPayment(Long invoiceId) {
         invoicePaymentConfirmValidationLogic.validateInvoiceId(invoiceId);

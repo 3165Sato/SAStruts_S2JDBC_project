@@ -45,6 +45,8 @@ public class InvoicePaymentConfirmServiceTest {
     public void setUp() {
         assertNotNull(jdbcManager);
         assertNotNull(invoicePaymentConfirmService);
+        assertNotNull(invoicePaymentConfirmService.invoicePaymentConfirmValidationLogic);
+        assertNotNull(invoicePaymentConfirmService.invoicePaymentHistoryLogic);
         assertNotNull(dbCustomerService);
         assertNotNull(dbDepartmentService);
         assertNotNull(dbScenarioInvoiceService);

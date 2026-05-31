@@ -72,4 +72,9 @@
       </arg>
     </initMethod>
   </component>
+  <component name="logicCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
+    <initMethod name="addCustomizer">
+      <arg>traceCustomizer</arg>
+    </initMethod>
+  </component>
 </components>

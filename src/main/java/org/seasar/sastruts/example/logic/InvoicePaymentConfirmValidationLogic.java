@@ -1,4 +1,4 @@
-package org.seasar.sastruts.example.service;
+package org.seasar.sastruts.example.logic;
 
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 
