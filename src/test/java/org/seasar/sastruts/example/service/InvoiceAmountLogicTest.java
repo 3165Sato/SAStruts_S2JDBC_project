@@ -10,6 +10,11 @@ import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
 
+/**
+ * InvoiceAmountLogicの金額変更ルールを検証するS2JUnit4テスト。
+ * Amount Logic層を対象にし、未承認のみ金額変更できることと、承認後は変更できないことを確認する。
+ * DBは使わず、業務状態ごとの金額変更可否を小さな単位で検証する。
+ */
 @RunWith(Seasar2.class)
 public class InvoiceAmountLogicTest {
 

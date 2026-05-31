@@ -7,6 +7,10 @@ import java.io.InputStreamReader;
 
 import org.seasar.extension.jdbc.JdbcManager;
 
+/**
+ * テスト用SQLファイルをclasspathから読み込み、JdbcManagerで実行する補助クラス。
+ * DDLや固定初期データをExcelではなくSQLファイルで管理するために使用する。
+ */
 public class SqlTestSupport {
 
     private final JdbcManager jdbcManager;

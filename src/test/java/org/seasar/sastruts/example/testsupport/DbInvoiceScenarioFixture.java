@@ -9,6 +9,11 @@ import org.seasar.sastruts.example.service.DbCustomerService;
 import org.seasar.sastruts.example.service.DbDepartmentService;
 import org.seasar.sastruts.example.service.DbScenarioInvoiceService;
 
+/**
+ * 複数TABLEをまたぐ請求書シナリオを作成するScenario Fixture。
+ * 顧客・部署・請求書・承認履歴を組み合わせ、DB登録済みの業務状態を準備する。
+ * Scenario Fixture自体はS2コンテナ管理せず、テスト側からDI済みServiceを渡して使用する。
+ */
 public class DbInvoiceScenarioFixture {
 
     private final DbCustomerService dbCustomerService;

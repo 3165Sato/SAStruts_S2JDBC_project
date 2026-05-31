@@ -4,6 +4,10 @@ import java.sql.Timestamp;
 
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 
+/**
+ * DbApprovalHistoryのテストデータを作成するBuilder。
+ * 承認済み・差戻し済みなど、請求書に紐づく履歴Entityを作るだけでDB登録は行わない。
+ */
 public final class DbApprovalHistoryTestDataBuilder {
 
     private static final Timestamp DEFAULT_APPROVED_AT = Timestamp.valueOf("2026-01-01 10:00:00");

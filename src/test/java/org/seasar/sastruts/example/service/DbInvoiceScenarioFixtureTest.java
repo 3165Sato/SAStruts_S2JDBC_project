@@ -17,6 +17,11 @@ import org.seasar.sastruts.example.testsupport.DbInvoiceScenario;
 import org.seasar.sastruts.example.testsupport.DbInvoiceScenarioFixture;
 import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
+/**
+ * 複数TABLEをまたぐDbInvoiceScenarioFixtureを検証するS2JUnit4テスト。
+ * Service層とScenario Fixtureを対象にし、H2インメモリDB上で顧客・部署・請求書・承認履歴の関連を確認する。
+ * DDLはSQLファイルで準備し、Scenario FixtureでExcelに依存しない業務状態を作成する。
+ */
 @RunWith(Seasar2.class)
 public class DbInvoiceScenarioFixtureTest {
 
@@ -52,7 +57,7 @@ public class DbInvoiceScenarioFixtureTest {
                 dbApprovalHistoryService);
     }
 
-    // 未承認シナリオで、顧客・部署・請求書が作成されることを確認する。
+    // 顧客・部署が存在する前提をScenario Fixtureで作り、未承認請求書と履歴なしの状態を確認する。
     @Test
     public void testCreateUnapprovedInvoiceScenario() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createUnapprovedInvoiceScenario();
@@ -69,7 +74,7 @@ public class DbInvoiceScenarioFixtureTest {
         assertEquals(0L, dbApprovalHistoryService.count());
     }
 
-    // 承認済みシナリオで、顧客・部署・請求書・承認履歴が作成されることを確認する。
+    // 承認済みシナリオを作成し、顧客・部署・請求書・承認履歴がまとめてDB登録されることを確認する。
     @Test
     public void testCreateApprovedInvoiceScenario() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
@@ -83,7 +88,7 @@ public class DbInvoiceScenarioFixtureTest {
         assertEquals("APPROVED", scenario.getApprovalHistory().getStatus());
     }
 
-    // 承認済みシナリオで、請求書と承認履歴が同じINVOICE_IDで紐づくことを確認する。
+    // 承認済み請求書と承認履歴の関連を確認し、複数TABLE間のINVOICE_IDが一致することを検証する。
     @Test
     public void testApprovedScenarioLinksInvoiceAndApprovalHistory() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
@@ -96,7 +101,7 @@ public class DbInvoiceScenarioFixtureTest {
         assertEquals(scenario.getApprovalHistory().getId(), histories.get(0).getId());
     }
 
-    // 複数シナリオを作成しても、各テーブルのIDが衝突しないことを確認する。
+    // 未承認・承認済み・差戻し済みを連続作成し、複数シナリオ間でIDが衝突しないことを確認する。
     @Test
     public void testMultipleScenariosDoNotConflictIds() {
         DbInvoiceScenario unapproved = dbInvoiceScenarioFixture.createUnapprovedInvoiceScenario();

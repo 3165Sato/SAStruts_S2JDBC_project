@@ -15,6 +15,11 @@ import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
 
+/**
+ * InvoiceServiceの業務ルールを検証するS2JUnit4テスト。
+ * Service層を対象にし、Seasar2コンテナからDIしたServiceで状態遷移・入力チェック・副作用を確認する。
+ * DBは使用せず、インメモリStoreを初期化しながら各テストを独立して実行する。
+ */
 @RunWith(Seasar2.class)
 public class InvoiceServiceTest {
 
@@ -414,16 +419,19 @@ public class InvoiceServiceTest {
         return invoiceService.register("test invoice", BigDecimal.valueOf(1000L));
     }
 
+    // 承認系のテスト前提として、未承認請求書を承認済みにした状態を作る。
     private Invoice registerApprovedInvoice() {
         Invoice invoice = registerUnapprovedInvoice();
         return invoiceService.approve(invoice.getId());
     }
 
+    // 差戻し系のテスト前提として、未承認請求書を差戻し済みにした状態を作る。
     private Invoice registerRejectedInvoice() {
         Invoice invoice = registerUnapprovedInvoice();
         return invoiceService.reject(invoice.getId());
     }
 
+    // 支払確定系のテスト前提として、承認済み請求書を支払確定済みにした状態を作る。
     private Invoice registerPaymentConfirmedInvoice() {
         Invoice invoice = registerApprovedInvoice();
         return invoiceService.confirmPayment(invoice.getId());

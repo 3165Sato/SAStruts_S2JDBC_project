@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 
 import org.seasar.sastruts.example.entity.DbInvoice;
 
+/**
+ * DbInvoiceのテストデータを作成するBuilder。
+ * Entityオブジェクトを作るだけで、DB登録は行わない。
+ * テストデータの意味をメソッド名で表現し、項目追加時の修正範囲を局所化する。
+ */
 public final class DbInvoiceTestDataBuilder {
 
     private static final String DEFAULT_TITLE = "test invoice";

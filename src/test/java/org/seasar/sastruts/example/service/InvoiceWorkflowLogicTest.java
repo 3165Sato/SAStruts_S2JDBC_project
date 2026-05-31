@@ -10,6 +10,11 @@ import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
 
+/**
+ * InvoiceWorkflowLogicの状態遷移ルールを検証するS2JUnit4テスト。
+ * Workflow Logic層を対象にし、承認・差戻し・支払確定の許可状態と不許可状態を確認する。
+ * DBは使わず、各テストで必要なステータスのInvoiceを作成して業務ルールを検証する。
+ */
 @RunWith(Seasar2.class)
 public class InvoiceWorkflowLogicTest {
 

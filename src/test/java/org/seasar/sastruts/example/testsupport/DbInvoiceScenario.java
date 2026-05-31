@@ -5,6 +5,10 @@ import org.seasar.sastruts.example.entity.DbCustomer;
 import org.seasar.sastruts.example.entity.DbDepartment;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 
+/**
+ * Scenario Fixtureが作成した複数TABLEの業務状態をまとめて返すDTO。
+ * テスト側で顧客・部署・請求書・承認履歴のIDや関連を検証しやすくする。
+ */
 public class DbInvoiceScenario {
 
     private final DbCustomer customer;

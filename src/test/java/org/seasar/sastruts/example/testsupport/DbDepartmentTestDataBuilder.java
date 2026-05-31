@@ -2,6 +2,10 @@ package org.seasar.sastruts.example.testsupport;
 
 import org.seasar.sastruts.example.entity.DbDepartment;
 
+/**
+ * DbDepartmentのテストデータを作成するBuilder。
+ * 部署Entityを作るだけで、DB登録はScenario FixtureやServiceに任せる。
+ */
 public final class DbDepartmentTestDataBuilder {
 
     private DbDepartmentTestDataBuilder() {

@@ -13,6 +13,11 @@ import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
 
+/**
+ * InvoiceStoreのインメモリ保存責務を検証するS2JUnit4テスト。
+ * Store相当レイヤーを対象にし、保存・ID採番・検索・初期化が正しく動くことを確認する。
+ * DBは使わず、ServiceやLogicから切り出したデータ保持部分の振る舞いを検証する。
+ */
 @RunWith(Seasar2.class)
 public class InvoiceStoreTest {
 

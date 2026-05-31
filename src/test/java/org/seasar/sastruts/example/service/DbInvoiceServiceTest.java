@@ -16,6 +16,11 @@ import org.seasar.sastruts.example.testsupport.DbInvoiceFixture;
 import org.seasar.sastruts.example.testsupport.DbInvoiceTestDataBuilder;
 import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
+/**
+ * DbInvoiceServiceのDBアクセス処理を検証するS2JUnit4テスト。
+ * Service層とS2JDBC / JdbcManagerを対象にし、H2インメモリDBで登録・検索・更新・件数取得を確認する。
+ * Excelテストデータには依存せず、Builder / Fixture / SQLファイル方式を組み合わせて前提データを準備する。
+ */
 @RunWith(Seasar2.class)
 public class DbInvoiceServiceTest {
 
@@ -37,7 +42,7 @@ public class DbInvoiceServiceTest {
         createTable();
     }
 
-    // S2JDBCを使ってDbInvoiceをDBに登録できることを確認する。
+    // Builderで作成した未承認請求書を前提に、S2JDBCでDB登録できることと件数が増えることを確認する。
     @Test
     public void testInsert() {
         DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
@@ -48,7 +53,7 @@ public class DbInvoiceServiceTest {
         assertEquals(1L, dbInvoiceService.count());
     }
 
-    // 登録したDbInvoiceをIDで取得できることを確認する。
+    // FixtureでDB登録済みの請求書を準備し、findByIdで同じ内容を取得できることを確認する。
     @Test
     public void testFindById() {
         dbInvoiceFixture.insertUnapprovedInvoice(Long.valueOf(1L));
@@ -62,7 +67,7 @@ public class DbInvoiceServiceTest {
         assertEquals("UNAPPROVED", found.getStatus());
     }
 
-    // updateStatusでDbInvoiceのステータスを更新できることを確認する。
+    // 未承認請求書がDBにある前提で、updateStatusによりステータスだけを更新できることを確認する。
     @Test
     public void testUpdateStatus() {
         dbInvoiceFixture.insertUnapprovedInvoice(Long.valueOf(1L));
@@ -74,7 +79,7 @@ public class DbInvoiceServiceTest {
         assertEquals("APPROVED", found.getStatus());
     }
 
-    // countで登録件数を取得できることを確認する。
+    // 複数件の請求書をFixtureで登録し、countでDB上の登録件数を取得できることを確認する。
     @Test
     public void testCount() {
         dbInvoiceFixture.insertInvoice(DbInvoiceTestDataBuilder.invoice(
@@ -85,13 +90,13 @@ public class DbInvoiceServiceTest {
         assertEquals(2L, dbInvoiceService.count());
     }
 
-    // 存在しないIDの場合にfindByIdがnullを返すことを確認する。
+    // DBに対象IDが存在しない前提で、findByIdがnullを返す仕様であることを確認する。
     @Test
     public void testFindByIdNotFound() {
         assertNull(dbInvoiceService.findById(Long.valueOf(999L)));
     }
 
-    // SQLファイルで投入したDbInvoiceをIDで取得できることを確認する。
+    // SQLファイルでDDLと初期データを投入し、固定データをfindByIdで取得できることを確認する。
     @Test
     public void testFindByIdUsingSqlFileData() {
         loadDbInvoiceSqlFiles();
@@ -105,7 +110,7 @@ public class DbInvoiceServiceTest {
         assertEquals("UNAPPROVED", found.getStatus());
     }
 
-    // SQLファイルで投入した初期データ件数を取得できることを確認する。
+    // SQLファイルで投入した固定初期データの件数をcountで確認し、SQL方式の準備結果を検証する。
     @Test
     public void testCountUsingSqlFileData() {
         loadDbInvoiceSqlFiles();

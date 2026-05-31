@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 
+/**
+ * 複数TABLEシナリオ用のDbScenarioInvoiceを作成するBuilder。
+ * 顧客ID・部署IDとの関連を持つ請求書Entityを作るだけで、DB登録は行わない。
+ */
 public final class DbScenarioInvoiceTestDataBuilder {
 
     private static final String DEFAULT_TITLE = "test scenario invoice";
