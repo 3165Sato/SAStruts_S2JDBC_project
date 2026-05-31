@@ -37,6 +37,7 @@
 | Level 6-3: SQLファイル方式 | DDLや固定初期データをSQLで管理できるか確認する | schema SQLとtest data SQL、SQL実行補助クラスを追加した | 完了。SQLファイル方式でもテストデータを準備できた |
 | Level 7: 意図的バグを入れてAI生成テストが検知できるか評価 | AI生成テストが退行検知に有効か確認する | 状態遷移ルールに反するバグを意図的に混入し、テスト失敗を確認した | 完了。GitLab CIの失敗として検知できた |
 | Level 8: 複数TABLEをまたぐScenario Fixture検証 | 複数TABLEの前提データをExcelなしで準備できるか確認する | 顧客、部署、請求書、承認履歴をまとめて作るScenario Fixtureを追加した | 完了。複数TABLEの業務状態を作成できた |
+| Level 9: 複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務シナリオ検証 | 実業務に近い呼び出し構造をS2JUnit4で検証できるか確認する | `InvoicePaymentConfirmService` を追加し、支払確定処理の正常系・異常系・副作用を検証した | 完了。複数クラスを跨ぐ業務処理を検証できた |
 
 ## 4. AIによるS2JUnit4テスト生成の評価
 
@@ -78,6 +79,32 @@ GitLab CI上でもDBありテストは成功した。H2 TCPサーバ方式では
 Builder / Fixture / SQLファイルを組み合わせることで、複数TABLEのテストデータ準備が可能であることを確認した。Scenario Fixtureは、複数テーブルにまたがる「業務状態」を作る役割である。
 
 この検証もGitLab CIで成功しており、Excelに依存しない複数TABLE前提データ作成の実現性を確認できた。
+
+## 6.2 複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務シナリオ検証
+
+実業務に近い構成として、請求書支払確定処理を追加し、複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務シナリオをS2JUnit4で検証した。
+
+この検証では、`InvoicePaymentConfirmService` を業務処理の入口とし、以下の呼び出し関係で処理を組み立てた。
+
+- `InvoicePaymentConfirmService`: 支払確定処理全体の入口
+- `InvoicePaymentConfirmValidationLogic`: 支払確定可否の判定
+- `InvoicePaymentHistoryLogic`: 支払確定履歴Entityの作成
+- `DbScenarioInvoiceService`: 請求書の取得とステータス更新
+- `DbApprovalHistoryService`: 履歴の登録・検索
+
+S2JUnit4テストでは、以下の観点を確認した。
+
+- 承認済み請求書を支払確定できる
+- 支払確定後に請求書ステータスが `PAYMENT_CONFIRMED` になる
+- 支払確定履歴が登録される
+- 支払確定履歴の `INVOICE_ID` が対象請求書IDと一致する
+- 支払確定履歴の `STATUS` が `PAYMENT_CONFIRMED` である
+- 未承認・差戻し済み・支払確定済み・存在しないIDではエラーになる
+- 異常時に請求書ステータスや履歴件数が変わらない
+
+この検証により、AI生成テストでも複数クラスを跨ぐ業務処理を検証できることを確認した。一方で、副作用検証は明示的に指示しないと漏れやすい。特に、異常時にDB状態が変わらないこと、履歴が二重登録されないこと、履歴の `INVOICE_ID` と `STATUS` が正しいことは、人間がテスト観点として明示する必要がある。
+
+また、Scenario Fixtureにより複数TABLEの前提データを準備しやすくなり、承認済み請求書や差戻し済み請求書などの業務状態をテスト開始時点で表現できることも確認した。
 
 ## 7. Excelなしテストデータ準備方式の比較
 
@@ -137,6 +164,9 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 - CIに載せることで、AI生成テストを品質ゲートとして使える
 - Excel依存を減らすには、Builder / Fixture / Scenario Fixture / SQLファイル方式が有効である
 - 複数TABLEをまたぐ前提データも、Scenario FixtureによりJavaコード上で表現できる
+- AI生成テストでも複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務処理を検証できる
+- 副作用検証は明示的に指示しないと漏れやすい
+- 実務適用では、人間が業務ルール・副作用・DB状態を整理してからAIに依頼する必要がある
 - AIに丸投げするのではなく、人間がテスト観点と制約を明示する必要がある
 - 実業務適用には複数TABLE、複数Service、外部依存、トランザクションなどの追加検証が必要である
 
@@ -151,10 +181,12 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 
 ## 11. 今後の検証課題
 
-- 複数Service / 複数Logic / DAOを跨ぐ業務シナリオのテスト生成
 - LogicCreator追加によるlogicパッケージのS2管理化
 - DBトランザクションとロールバックの検証
+- トランザクション途中失敗時のロールバック検証
 - 外部依存やモックが必要な処理のAIテスト生成
+- 外部依存やモックを含むテスト
+- より実業務に近い複数機能連携
 - 実業務のExcelテストデータをBuilder / Fixture / SQLへ置き換える場合の移行方針
 - Scenario Fixtureが複雑化した場合の保守性確認
 - 実業務のExcelテストデータをScenario Fixtureへ移行する場合の粒度設計
@@ -165,7 +197,7 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 
 今回の検証により、Seasar2 / S2JUnit4のようなレガシー環境でも、AI生成テストとCI/CDの組み合わせには十分な検証価値があることを確認できた。
 
-特に、状態遷移ロジックに対する正常系・異常系テスト、GitLab CIによる自動実行、H2 + S2JDBCによるDBありテスト、Excelなしテストデータ準備、複数TABLEをまたぐScenario Fixtureについて、一定の実現性を確認できた。
+特に、状態遷移ロジックに対する正常系・異常系テスト、GitLab CIによる自動実行、H2 + S2JDBCによるDBありテスト、Excelなしテストデータ準備、複数TABLEをまたぐScenario Fixture、複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務シナリオについて、一定の実現性を確認できた。
 
 一方で、実業務の複雑性を考えると、AIに完全自動化を期待するのではなく、人間が仕様、テスト観点、制約、前提条件を整理し、AIに実装補助させる形が現実的である。
 
