@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
+import org.seasar.sastruts.example.logic.InvoiceValidationLogic;
 
 /**
  * InvoiceValidationLogicの入力チェック責務を検証するS2JUnit4テスト。
@@ -17,7 +18,7 @@ import org.seasar.sastruts.example.entity.Invoice;
 @RunWith(Seasar2.class)
 public class InvoiceValidationLogicTest {
 
-    private final InvoiceValidationLogic invoiceValidationLogic = new InvoiceValidationLogic();
+    public InvoiceValidationLogic invoiceValidationLogic;
 
     // 正常なタイトルが入力チェックを通過することを確認する。
     @Test

@@ -3,14 +3,17 @@ package org.seasar.sastruts.example.service;
 import java.math.BigDecimal;
 
 import org.seasar.sastruts.example.entity.Invoice;
+import org.seasar.sastruts.example.logic.InvoiceAmountLogic;
+import org.seasar.sastruts.example.logic.InvoiceValidationLogic;
+import org.seasar.sastruts.example.logic.InvoiceWorkflowLogic;
 
 public class InvoiceService {
 
-    private final InvoiceValidationLogic invoiceValidationLogic = new InvoiceValidationLogic();
+    public InvoiceValidationLogic invoiceValidationLogic;
 
-    private final InvoiceWorkflowLogic invoiceWorkflowLogic = new InvoiceWorkflowLogic();
+    public InvoiceWorkflowLogic invoiceWorkflowLogic;
 
-    private final InvoiceAmountLogic invoiceAmountLogic = new InvoiceAmountLogic();
+    public InvoiceAmountLogic invoiceAmountLogic;
 
     private final InvoiceStore invoiceStore = new InvoiceStore();
 

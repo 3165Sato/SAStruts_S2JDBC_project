@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
+import org.seasar.sastruts.example.logic.InvoiceAmountLogic;
 
 /**
  * InvoiceAmountLogicの金額変更ルールを検証するS2JUnit4テスト。
@@ -18,7 +19,7 @@ import org.seasar.sastruts.example.entity.InvoiceStatus;
 @RunWith(Seasar2.class)
 public class InvoiceAmountLogicTest {
 
-    private final InvoiceAmountLogic invoiceAmountLogic = new InvoiceAmountLogic();
+    public InvoiceAmountLogic invoiceAmountLogic;
 
     // 未承認の請求書は金額変更でき、ステータスが変わらないことを確認する。
     @Test

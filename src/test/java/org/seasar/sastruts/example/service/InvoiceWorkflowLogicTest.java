@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
+import org.seasar.sastruts.example.logic.InvoiceWorkflowLogic;
 
 /**
  * InvoiceWorkflowLogicの状態遷移ルールを検証するS2JUnit4テスト。
@@ -18,7 +19,7 @@ import org.seasar.sastruts.example.entity.InvoiceStatus;
 @RunWith(Seasar2.class)
 public class InvoiceWorkflowLogicTest {
 
-    private final InvoiceWorkflowLogic invoiceWorkflowLogic = new InvoiceWorkflowLogic();
+    public InvoiceWorkflowLogic invoiceWorkflowLogic;
 
     // 未承認の請求書を承認済みに変更できることを確認する。
     @Test
