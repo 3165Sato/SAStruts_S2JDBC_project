@@ -25,6 +25,13 @@ public class DbScenarioInvoiceService {
         return invoices.get(0);
     }
 
+    public int updateStatus(Long id, String status) {
+        return jdbcManager.updateBySql(
+                "update DB_SCENARIO_INVOICE set STATUS = ? where ID = ?",
+                String.class,
+                Long.class).params(status, id).execute();
+    }
+
     public long count() {
         return jdbcManager.getCountBySql("select * from DB_SCENARIO_INVOICE");
     }

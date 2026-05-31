@@ -8,6 +8,7 @@ D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbScenarioInvoiceTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceScenario.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceScenarioFixture.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\DbInvoiceServiceTest.java

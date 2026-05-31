@@ -1,5 +1,8 @@
+D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoicePaymentConfirmService.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\InvoiceStatus.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\DbScenarioInvoice.java
+D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoicePaymentHistoryLogic.java
+D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoicePaymentConfirmValidationLogic.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\DbApprovalHistory.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoiceAmountLogic.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\DbCustomer.java

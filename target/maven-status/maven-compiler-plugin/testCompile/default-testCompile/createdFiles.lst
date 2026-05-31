@@ -2,6 +2,7 @@ org\seasar\sastruts\example\service\DbInvoiceServiceTest.class
 org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.class
 org\seasar\sastruts\example\testsupport\DbInvoiceTestDataBuilder.class
 org\seasar\sastruts\example\service\DbInvoiceScenarioFixtureTest.class
+org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest.class
 org\seasar\sastruts\example\service\InvoiceValidationLogicTest.class
 org\seasar\sastruts\example\testsupport\DbScenarioInvoiceTestDataBuilder.class
 org\seasar\sastruts\example\service\InvoiceStoreTest.class

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="45" failures="0" name="org.seasar.sastruts.example.service.InvoiceServiceTest" time="1.177" errors="0" skipped="0">
+<testsuite tests="45" failures="0" name="org.seasar.sastruts.example.service.InvoiceServiceTest" time="1.146" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_491\jre\bin"/>
@@ -64,49 +64,49 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvalidAmountDoesNotChangeAmountAndStatus" time="0.045"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountFailureDoesNotChangeAmountAndStatus" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectApprovedInvoice" time="0.046"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountNull" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNotFound" time="0.022"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountZero" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNull" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveRejectedInvoice" time="0.022"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectAlreadyRejectedInvoice" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNull" time="0.029"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountToOne" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountMinus" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNull" time="0.046"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountRejectedInvoice" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNull" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNotFound" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectUnapprovedInvoice" time="0.025"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveUnapprovedInvoice" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentUnapprovedInvoice" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentApprovedInvoice" time="0.06"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountUnapprovedInvoice" time="0.022"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveAlreadyApprovedInvoice" time="0.02"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectFailureDoesNotChangeStatus" time="0.004"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNotFound" time="0.042"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNotFound" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentFailureDoesNotChangeStatus" time="0.02"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveFailureDoesNotChangeStatus" time="0.02"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountPaymentConfirmedInvoice" time="0.031"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterStatusIsUnapproved" time="0.048"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNull" time="0.016"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountApprovedInvoice" time="0.031"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNotFound" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNull" time="0.029"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegister" time="0.03"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveFailureDoesNotChangeStatus" time="0.042"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNotFound" time="0.017"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApprovePaymentConfirmedInvoice" time="0.071"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentApprovedInvoice" time="0.015"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectPaymentConfirmedInvoice" time="0.035"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentUnapprovedInvoice" time="0.012"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountPaymentConfirmedInvoice" time="0.043"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveAlreadyApprovedInvoice" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentRejectedInvoice" time="0.018"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentFailureDoesNotChangeStatus" time="0.025"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountUnapprovedInvoice" time="0.021"/>
   <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentAlreadyPaymentConfirmedInvoice" time="0.019"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectPaymentConfirmedInvoice" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterMultipleInvoicesIdIsUnique" time="0.025"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApprovePaymentConfirmedInvoice" time="0.025"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentRejectedInvoice" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountZero" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountNull" time="0.018"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountMinus" time="0.035"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountOne" time="0.016"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleNull" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleEmpty" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleOnlySpaces" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterStatusIsUnapproved" time="0.022"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNotFound" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountApprovedInvoice" time="0.03"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNull" time="0.02"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegister" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterMultipleInvoicesIdIsUnique" time="0.023"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectFailureDoesNotChangeStatus" time="0.038"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNotFound" time="0.018"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountFailureDoesNotChangeAmountAndStatus" time="0.029"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvalidAmountDoesNotChangeAmountAndStatus" time="0.021"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountMinus" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountRejectedInvoice" time="0.019"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountZero" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNull" time="0.033"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountZero" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveRejectedInvoice" time="0.016"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNull" time="0.015"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectAlreadyRejectedInvoice" time="0.029"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountNull" time="0.016"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectUnapprovedInvoice" time="0.031"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNotFound" time="0.028"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNotFound" time="0.022"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleNull" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNull" time="0.018"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectApprovedInvoice" time="0.011"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountToOne" time="0.032"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountNull" time="0.023"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountMinus" time="0.027"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountOne" time="0.011"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleEmpty" time="0.032"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleOnlySpaces" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveUnapprovedInvoice" time="0.034"/>
 </testsuite>

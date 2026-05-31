@@ -1,3 +1,4 @@
+org\seasar\sastruts\example\service\InvoicePaymentConfirmValidationLogic.class
 org\seasar\sastruts\example\service\DbApprovalHistoryService.class
 org\seasar\sastruts\example\service\InvoiceValidationLogic.class
 org\seasar\sastruts\example\service\DbDepartmentService.class
@@ -5,11 +6,13 @@ org\seasar\sastruts\example\entity\DbApprovalHistory.class
 org\seasar\sastruts\example\service\InvoiceStore.class
 org\seasar\sastruts\example\service\DbInvoiceService.class
 org\seasar\sastruts\example\service\InvoiceWorkflowLogic.class
+org\seasar\sastruts\example\service\InvoicePaymentConfirmService.class
 org\seasar\sastruts\example\entity\DbScenarioInvoice.class
 org\seasar\sastruts\example\entity\Invoice.class
 org\seasar\sastruts\example\entity\DbInvoice.class
 org\seasar\sastruts\example\entity\DbDepartment.class
 org\seasar\sastruts\example\service\DbCustomerService.class
+org\seasar\sastruts\example\service\InvoicePaymentHistoryLogic.class
 org\seasar\sastruts\example\service\InvoiceAmountLogic.class
 org\seasar\sastruts\example\service\DbScenarioInvoiceService.class
 org\seasar\sastruts\example\entity\InvoiceStatus.class
