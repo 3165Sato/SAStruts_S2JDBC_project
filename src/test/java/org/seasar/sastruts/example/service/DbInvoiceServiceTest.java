@@ -14,6 +14,7 @@ import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.sastruts.example.entity.DbInvoice;
 import org.seasar.sastruts.example.testsupport.DbInvoiceFixture;
 import org.seasar.sastruts.example.testsupport.DbInvoiceTestDataBuilder;
+import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
 @RunWith(Seasar2.class)
 public class DbInvoiceServiceTest {
@@ -24,11 +25,14 @@ public class DbInvoiceServiceTest {
 
     private DbInvoiceFixture dbInvoiceFixture;
 
+    private SqlTestSupport sqlTestSupport;
+
     @PostBindFields
     public void setUp() {
         assertNotNull(dbInvoiceService);
         assertNotNull(jdbcManager);
         dbInvoiceFixture = new DbInvoiceFixture(dbInvoiceService);
+        sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropTable();
         createTable();
     }
@@ -87,6 +91,28 @@ public class DbInvoiceServiceTest {
         assertNull(dbInvoiceService.findById(Long.valueOf(999L)));
     }
 
+    // SQLファイルで投入したDbInvoiceをIDで取得できることを確認する。
+    @Test
+    public void testFindByIdUsingSqlFileData() {
+        loadDbInvoiceSqlFiles();
+
+        DbInvoice found = dbInvoiceService.findById(Long.valueOf(1L));
+
+        assertNotNull(found);
+        assertEquals(Long.valueOf(1L), found.getId());
+        assertEquals("sql unapproved invoice", found.getTitle());
+        assertEquals(0, BigDecimal.valueOf(1000L).compareTo(found.getAmount()));
+        assertEquals("UNAPPROVED", found.getStatus());
+    }
+
+    // SQLファイルで投入した初期データ件数を取得できることを確認する。
+    @Test
+    public void testCountUsingSqlFileData() {
+        loadDbInvoiceSqlFiles();
+
+        assertEquals(4L, dbInvoiceService.count());
+    }
+
     private void dropTable() {
         try {
             jdbcManager.updateBySql("drop table DB_INVOICE").execute();
@@ -103,6 +129,11 @@ public class DbInvoiceServiceTest {
                         + "AMOUNT decimal(19, 2) not null, "
                         + "STATUS varchar(32) not null"
                         + ")").execute();
+    }
+
+    private void loadDbInvoiceSqlFiles() {
+        sqlTestSupport.executeSqlFile("sql/db_invoice_schema.sql");
+        sqlTestSupport.executeSqlFile("sql/db_invoice_test_data.sql");
     }
 
 }
