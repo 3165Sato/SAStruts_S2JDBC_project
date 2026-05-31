@@ -1,5 +1,6 @@
+org\seasar\sastruts\example\service\DbInvoiceServiceTest.class
+org\seasar\sastruts\example\service\InvoiceServiceTest.class
 org\seasar\sastruts\example\service\InvoiceValidationLogicTest.class
 org\seasar\sastruts\example\service\InvoiceStoreTest.class
 org\seasar\sastruts\example\service\InvoiceWorkflowLogicTest.class
 org\seasar\sastruts\example\service\InvoiceAmountLogicTest.class
-org\seasar\sastruts\example\service\InvoiceServiceTest.class

@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
-Test set: org.seasar.sastruts.example.service.InvoiceValidationLogicTest
+Test set: org.seasar.sastruts.example.service.DbInvoiceServiceTest
 -------------------------------------------------------------------------------
-Tests run: 7, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.107 sec
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.601 sec
