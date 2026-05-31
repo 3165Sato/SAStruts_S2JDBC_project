@@ -6,7 +6,9 @@ import org.seasar.sastruts.example.entity.InvoiceStatus;
 public class InvoiceWorkflowLogic {
 
     public Invoice approve(Invoice invoice) {
-        requireStatus(invoice, InvoiceStatus.UNAPPROVED, "invoice can not be approved.");
+        if (InvoiceStatus.PAYMENT_CONFIRMED == invoice.getStatus()) {
+            throw new IllegalStateException("invoice can not be approved.");
+        }
         invoice.setStatus(InvoiceStatus.APPROVED);
         return invoice;
     }

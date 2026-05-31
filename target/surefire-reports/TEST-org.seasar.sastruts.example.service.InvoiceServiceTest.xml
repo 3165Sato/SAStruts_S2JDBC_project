@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="45" failures="0" name="org.seasar.sastruts.example.service.InvoiceServiceTest" time="1.488" errors="0" skipped="0">
+<testsuite tests="45" failures="3" name="org.seasar.sastruts.example.service.InvoiceServiceTest" time="1.361" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk1.8.0_491\jre\bin"/>
@@ -64,49 +64,269 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountApprovedInvoice" time="0.091"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountFailureDoesNotChangeAmountAndStatus" time="0.051"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvalidAmountDoesNotChangeAmountAndStatus" time="0.041"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNotFound" time="0.035"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentAlreadyPaymentConfirmedInvoice" time="0.033"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentApprovedInvoice" time="0.049"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentFailureDoesNotChangeStatus" time="0.047"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountPaymentConfirmedInvoice" time="0.055"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentUnapprovedInvoice" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNotFound" time="0.034"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentRejectedInvoice" time="0.029"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterMultipleInvoicesIdIsUnique" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApprovePaymentConfirmedInvoice" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveAlreadyApprovedInvoice" time="0.04"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveFailureDoesNotChangeStatus" time="0.027"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectPaymentConfirmedInvoice" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectFailureDoesNotChangeStatus" time="0.037"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountUnapprovedInvoice" time="0.03"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNull" time="0.02"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountNull" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvalidAmountDoesNotChangeAmountAndStatus" time="0.07"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountFailureDoesNotChangeAmountAndStatus" time="0.044"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectAlreadyRejectedInvoice" time="0.038"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountToOne" time="0.034"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleNull" time="0.032"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountNull" time="0.047"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNull" time="0.04"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountZero" time="0.046"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleEmpty" time="0.036"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNull" time="0.032"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountNull" time="0.034"/>
   <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountZero" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveRejectedInvoice" time="0.027"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountOne" time="0.046"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountRejectedInvoice" time="0.043"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountMinus" time="0.051"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNull" time="0.046"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountNull" time="0.023"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectApprovedInvoice" time="0.038"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterStatusIsUnapproved" time="0.032"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleEmpty" time="0.021"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleNull" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNull" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountToOne" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountMinus" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNotFound" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectAlreadyRejectedInvoice" time="0.026"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleOnlySpaces" time="0.031"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountZero" time="0.036"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveUnapprovedInvoice" time="0.018"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNotFound" time="0.013"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectUnapprovedInvoice" time="0.033"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNull" time="0.022"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNotFound" time="0.018"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNull" time="0.024"/>
-  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegister" time="0.021"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectApprovedInvoice" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNull" time="0.033"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountMinus" time="0.027"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountRejectedInvoice" time="0.034"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountApprovedInvoice" time="0.03"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterTitleOnlySpaces" time="0.03"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNotFound" time="0.011"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectUnapprovedInvoice" time="0.034"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectInvoiceIdNotFound" time="0.022"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterStatusIsUnapproved" time="0.031"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountOne" time="0.03"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterAmountMinus" time="0.034"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveUnapprovedInvoice" time="0.043"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveInvoiceIdNull" time="0.034"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNotFound" time="0.027"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveRejectedInvoice" time="0.028">
+    <failure message="Expected exception: java.lang.IllegalStateException" type="java.lang.AssertionError">java.lang.AssertionError: Expected exception: java.lang.IllegalStateException
+	at org.seasar.framework.unit.S2TestMethodRunner.executeMethod(S2TestMethodRunner.java:649)
+	at org.seasar.framework.unit.S2TestMethodRunner.runTest(S2TestMethodRunner.java:612)
+	at org.seasar.framework.unit.S2TestMethodRunner.runMethod(S2TestMethodRunner.java:250)
+	at org.seasar.framework.unit.S2TestMethodRunner.run(S2TestMethodRunner.java:166)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.invokeTestMethod(S2TestClassMethodsRunner.java:227)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.run(S2TestClassMethodsRunner.java:89)
+	at org.seasar.framework.unit.S2TestClassRunner.run(S2TestClassRunner.java:67)
+	at org.seasar.framework.unit.Seasar2.run(Seasar2.java:179)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</failure>
+    <system-out>DEBUG 2026-05-31 10:51:45,497 [main] 環境変数#Envにファイル(env.txt)から値(ct)が設定されました
+DEBUG 2026-05-31 10:51:45,497 [main] 環境変数#Envにファイル(env_ut.txt)から値(ut)が設定されました
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成します。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,497 [main] S2Containerを作成しました。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,507 [main] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] 設定ファイル(app.dicon)をインクルードします
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=app.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成しました。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成しました。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,508 [main] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成しました。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成します。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成します。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成しました。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成しました。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] S2Containerを作成しました。path=app.dicon
+DEBUG 2026-05-31 10:51:45,514 [main] クラス(org.seasar.sastruts.example.service.InvoiceService[invoiceService])のコンポーネント定義を登録します
+DEBUG 2026-05-31 10:51:45,520 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#clear()
+DEBUG 2026-05-31 10:51:45,520 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/56, BranchId=]
+DEBUG 2026-05-31 10:51:45,520 [main] トランザクションをコミットしました。tx=[FormatId=4360, GlobalId=1780192304490/56, BranchId=]
+DEBUG 2026-05-31 10:51:45,520 [main] END org.seasar.sastruts.example.service.InvoiceService#clear() : null
+DEBUG 2026-05-31 10:51:45,520 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/57, BranchId=]
+DEBUG 2026-05-31 10:51:45,520 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000)
+DEBUG 2026-05-31 10:51:45,520 [main] END org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000) : org.seasar.sastruts.example.entity.Invoice@6e1d4137
+DEBUG 2026-05-31 10:51:45,520 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#reject(1)
+DEBUG 2026-05-31 10:51:45,520 [main] END org.seasar.sastruts.example.service.InvoiceService#reject(1) : org.seasar.sastruts.example.entity.Invoice@6e1d4137
+DEBUG 2026-05-31 10:51:45,520 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#approve(1)
+DEBUG 2026-05-31 10:51:45,520 [main] END org.seasar.sastruts.example.service.InvoiceService#approve(1) : org.seasar.sastruts.example.entity.Invoice@6e1d4137
+</system-out>
+  </testcase>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegisterMultipleInvoicesIdIsUnique" time="0.013"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveAlreadyApprovedInvoice" time="0.032">
+    <failure message="Expected exception: java.lang.IllegalStateException" type="java.lang.AssertionError">java.lang.AssertionError: Expected exception: java.lang.IllegalStateException
+	at org.seasar.framework.unit.S2TestMethodRunner.executeMethod(S2TestMethodRunner.java:649)
+	at org.seasar.framework.unit.S2TestMethodRunner.runTest(S2TestMethodRunner.java:612)
+	at org.seasar.framework.unit.S2TestMethodRunner.runMethod(S2TestMethodRunner.java:250)
+	at org.seasar.framework.unit.S2TestMethodRunner.run(S2TestMethodRunner.java:166)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.invokeTestMethod(S2TestClassMethodsRunner.java:227)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.run(S2TestClassMethodsRunner.java:89)
+	at org.seasar.framework.unit.S2TestClassRunner.run(S2TestClassRunner.java:67)
+	at org.seasar.framework.unit.Seasar2.run(Seasar2.java:179)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</failure>
+    <system-out>DEBUG 2026-05-31 10:51:45,542 [main] 環境変数#Envにファイル(env.txt)から値(ct)が設定されました
+DEBUG 2026-05-31 10:51:45,542 [main] 環境変数#Envにファイル(env_ut.txt)から値(ut)が設定されました
+DEBUG 2026-05-31 10:51:45,542 [main] S2Containerを作成します。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,542 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,557 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,558 [main] S2Containerを作成します。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,558 [main] S2Containerを作成します。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,559 [main] S2Containerを作成します。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,559 [main] S2Containerを作成します。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,560 [main] S2Containerを作成しました。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] 設定ファイル(app.dicon)をインクルードします
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=app.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成します。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] S2Containerを作成しました。path=app.dicon
+DEBUG 2026-05-31 10:51:45,561 [main] クラス(org.seasar.sastruts.example.service.InvoiceService[invoiceService])のコンポーネント定義を登録します
+DEBUG 2026-05-31 10:51:45,574 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#clear()
+DEBUG 2026-05-31 10:51:45,574 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/60, BranchId=]
+DEBUG 2026-05-31 10:51:45,574 [main] トランザクションをコミットしました。tx=[FormatId=4360, GlobalId=1780192304490/60, BranchId=]
+DEBUG 2026-05-31 10:51:45,574 [main] END org.seasar.sastruts.example.service.InvoiceService#clear() : null
+DEBUG 2026-05-31 10:51:45,574 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/61, BranchId=]
+DEBUG 2026-05-31 10:51:45,574 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000)
+DEBUG 2026-05-31 10:51:45,574 [main] END org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000) : org.seasar.sastruts.example.entity.Invoice@49293b43
+DEBUG 2026-05-31 10:51:45,574 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#approve(1)
+DEBUG 2026-05-31 10:51:45,574 [main] END org.seasar.sastruts.example.service.InvoiceService#approve(1) : org.seasar.sastruts.example.entity.Invoice@49293b43
+DEBUG 2026-05-31 10:51:45,574 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#approve(1)
+DEBUG 2026-05-31 10:51:45,574 [main] END org.seasar.sastruts.example.service.InvoiceService#approve(1) : org.seasar.sastruts.example.entity.Invoice@49293b43
+</system-out>
+  </testcase>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApprovePaymentConfirmedInvoice" time="0.022"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testApproveFailureDoesNotChangeStatus" time="0.025">
+    <failure message="Expected IllegalStateException." type="java.lang.AssertionError">java.lang.AssertionError: Expected IllegalStateException.
+	at org.junit.Assert.fail(Assert.java:74)
+	at org.seasar.sastruts.example.service.InvoiceServiceTest.testApproveFailureDoesNotChangeStatus(InvoiceServiceTest.java:170)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.seasar.framework.unit.S2TestMethodRunner.executeMethodBody(S2TestMethodRunner.java:672)
+	at org.seasar.framework.unit.S2TestMethodRunner.executeMethod(S2TestMethodRunner.java:647)
+	at org.seasar.framework.unit.S2TestMethodRunner.runTest(S2TestMethodRunner.java:612)
+	at org.seasar.framework.unit.S2TestMethodRunner.runMethod(S2TestMethodRunner.java:250)
+	at org.seasar.framework.unit.S2TestMethodRunner.run(S2TestMethodRunner.java:166)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.invokeTestMethod(S2TestClassMethodsRunner.java:227)
+	at org.seasar.framework.unit.S2TestClassMethodsRunner.run(S2TestClassMethodsRunner.java:89)
+	at org.seasar.framework.unit.S2TestClassRunner.run(S2TestClassRunner.java:67)
+	at org.seasar.framework.unit.Seasar2.run(Seasar2.java:179)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.execute(JUnit4Provider.java:252)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.executeTestSet(JUnit4Provider.java:141)
+	at org.apache.maven.surefire.junit4.JUnit4Provider.invoke(JUnit4Provider.java:112)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.maven.surefire.util.ReflectionUtils.invokeMethodWithArray(ReflectionUtils.java:189)
+	at org.apache.maven.surefire.booter.ProviderFactory$ProviderProxy.invoke(ProviderFactory.java:165)
+	at org.apache.maven.surefire.booter.ProviderFactory.invokeProvider(ProviderFactory.java:85)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:115)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:75)
+</failure>
+    <system-out>DEBUG 2026-05-31 10:51:45,598 [main] 環境変数#Envにファイル(env.txt)から値(ct)が設定されました
+DEBUG 2026-05-31 10:51:45,598 [main] 環境変数#Envにファイル(env_ut.txt)から値(ut)が設定されました
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成しました。path=std-customizer-tiger.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成しました。path=std-customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成しました。path=default-customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成しました。path=customizer.dicon
+DEBUG 2026-05-31 10:51:45,598 [main] S2Containerを作成します。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,606 [main] S2Containerを作成しました。path=creator.dicon
+DEBUG 2026-05-31 10:51:45,606 [main] S2Containerを作成しました。path=warmdeploy.dicon
+DEBUG 2026-05-31 10:51:45,606 [main] S2Containerを作成します。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=s2junit4.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] 設定ファイル(app.dicon)をインクルードします
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=app.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=convention.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=aop.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=jta.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=jdbc.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=j2ee.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成します。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=s2jdbc-internal.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=s2jdbc.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] S2Containerを作成しました。path=app.dicon
+DEBUG 2026-05-31 10:51:45,607 [main] クラス(org.seasar.sastruts.example.service.InvoiceService[invoiceService])のコンポーネント定義を登録します
+DEBUG 2026-05-31 10:51:45,607 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#clear()
+DEBUG 2026-05-31 10:51:45,607 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/64, BranchId=]
+DEBUG 2026-05-31 10:51:45,607 [main] トランザクションをコミットしました。tx=[FormatId=4360, GlobalId=1780192304490/64, BranchId=]
+DEBUG 2026-05-31 10:51:45,607 [main] END org.seasar.sastruts.example.service.InvoiceService#clear() : null
+DEBUG 2026-05-31 10:51:45,607 [main] トランザクションを開始しました。tx=[FormatId=4360, GlobalId=1780192304490/65, BranchId=]
+DEBUG 2026-05-31 10:51:45,623 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000)
+DEBUG 2026-05-31 10:51:45,623 [main] END org.seasar.sastruts.example.service.InvoiceService#register(test invoice, 1000) : org.seasar.sastruts.example.entity.Invoice@7aead3af
+DEBUG 2026-05-31 10:51:45,623 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#reject(1)
+DEBUG 2026-05-31 10:51:45,623 [main] END org.seasar.sastruts.example.service.InvoiceService#reject(1) : org.seasar.sastruts.example.entity.Invoice@7aead3af
+DEBUG 2026-05-31 10:51:45,623 [main] BEGIN org.seasar.sastruts.example.service.InvoiceService#approve(1)
+DEBUG 2026-05-31 10:51:45,623 [main] END org.seasar.sastruts.example.service.InvoiceService#approve(1) : org.seasar.sastruts.example.entity.Invoice@7aead3af
+</system-out>
+  </testcase>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectPaymentConfirmedInvoice" time="0.016"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRejectFailureDoesNotChangeStatus" time="0.016"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentApprovedInvoice" time="0.036"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentInvoiceIdNotFound" time="0.015"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountUnapprovedInvoice" time="0.036"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountPaymentConfirmedInvoice" time="0.027"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentUnapprovedInvoice" time="0.018"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentAlreadyPaymentConfirmedInvoice" time="0.033"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentFailureDoesNotChangeStatus" time="0.025"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testConfirmPaymentRejectedInvoice" time="0.021"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testChangeAmountInvoiceIdNotFound" time="0.027"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testFindByIdNull" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.InvoiceServiceTest" name="testRegister" time="0.023"/>
 </testsuite>
