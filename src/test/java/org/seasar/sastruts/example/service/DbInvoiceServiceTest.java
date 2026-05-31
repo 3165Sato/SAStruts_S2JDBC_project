@@ -12,6 +12,7 @@ import org.seasar.extension.jdbc.JdbcManager;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.sastruts.example.entity.DbInvoice;
+import org.seasar.sastruts.example.testsupport.DbInvoiceTestDataBuilder;
 
 @RunWith(Seasar2.class)
 public class DbInvoiceServiceTest {
@@ -31,7 +32,7 @@ public class DbInvoiceServiceTest {
     // S2JDBCを使ってDbInvoiceをDBに登録できることを確認する。
     @Test
     public void testInsert() {
-        DbInvoice invoice = createInvoice(Long.valueOf(1L), "test invoice", BigDecimal.valueOf(1000L), "UNAPPROVED");
+        DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
 
         int updated = dbInvoiceService.insert(invoice);
 
@@ -42,7 +43,7 @@ public class DbInvoiceServiceTest {
     // 登録したDbInvoiceをIDで取得できることを確認する。
     @Test
     public void testFindById() {
-        DbInvoice invoice = createInvoice(Long.valueOf(1L), "test invoice", BigDecimal.valueOf(1000L), "UNAPPROVED");
+        DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
         dbInvoiceService.insert(invoice);
 
         DbInvoice found = dbInvoiceService.findById(Long.valueOf(1L));
@@ -57,7 +58,7 @@ public class DbInvoiceServiceTest {
     // updateStatusでDbInvoiceのステータスを更新できることを確認する。
     @Test
     public void testUpdateStatus() {
-        DbInvoice invoice = createInvoice(Long.valueOf(1L), "test invoice", BigDecimal.valueOf(1000L), "UNAPPROVED");
+        DbInvoice invoice = DbInvoiceTestDataBuilder.unapprovedInvoice(Long.valueOf(1L));
         dbInvoiceService.insert(invoice);
 
         int updated = dbInvoiceService.updateStatus(Long.valueOf(1L), "APPROVED");
@@ -70,8 +71,10 @@ public class DbInvoiceServiceTest {
     // countで登録件数を取得できることを確認する。
     @Test
     public void testCount() {
-        dbInvoiceService.insert(createInvoice(Long.valueOf(1L), "first invoice", BigDecimal.valueOf(1000L), "UNAPPROVED"));
-        dbInvoiceService.insert(createInvoice(Long.valueOf(2L), "second invoice", BigDecimal.valueOf(2000L), "APPROVED"));
+        dbInvoiceService.insert(DbInvoiceTestDataBuilder.invoice(
+                Long.valueOf(1L), "first invoice", BigDecimal.valueOf(1000L), "UNAPPROVED"));
+        dbInvoiceService.insert(DbInvoiceTestDataBuilder.invoice(
+                Long.valueOf(2L), "second invoice", BigDecimal.valueOf(2000L), "APPROVED"));
 
         assertEquals(2L, dbInvoiceService.count());
     }
@@ -100,12 +103,4 @@ public class DbInvoiceServiceTest {
                         + ")").execute();
     }
 
-    private DbInvoice createInvoice(Long id, String title, BigDecimal amount, String status) {
-        DbInvoice invoice = new DbInvoice();
-        invoice.setId(id);
-        invoice.setTitle(title);
-        invoice.setAmount(amount);
-        invoice.setStatus(status);
-        return invoice;
-    }
 }
