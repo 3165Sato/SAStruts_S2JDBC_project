@@ -1,4 +1,4 @@
-package org.seasar.sastruts.example.service;
+package org.seasar.sastruts.example.logic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,12 +9,10 @@ import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
-import org.seasar.sastruts.example.logic.InvoiceAmountLogic;
 
 /**
- * InvoiceAmountLogicの金額変更ルールを検証するS2JUnit4テスト。
- * Amount Logic層を対象にし、未承認のみ金額変更できることと、承認後は変更できないことを確認する。
- * DBは使わず、業務状態ごとの金額変更可否を小さな単位で検証する。
+ * InvoiceAmountLogicの金額変更ルールを検証するLogic層テスト。
+ * DB副作用やService全体の業務フローは扱わず、状態ごとの金額変更可否を確認する。
  */
 @RunWith(Seasar2.class)
 public class InvoiceAmountLogicTest {

@@ -1,4 +1,4 @@
-package org.seasar.sastruts.example.service;
+package org.seasar.sastruts.example.logic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,12 +9,10 @@ import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
 import org.seasar.sastruts.example.entity.InvoiceStatus;
-import org.seasar.sastruts.example.logic.InvoiceWorkflowLogic;
 
 /**
- * InvoiceWorkflowLogicの状態遷移ルールを検証するS2JUnit4テスト。
- * Workflow Logic層を対象にし、承認・差戻し・支払確定の許可状態と不許可状態を確認する。
- * DBは使わず、各テストで必要なステータスのInvoiceを作成して業務ルールを検証する。
+ * InvoiceWorkflowLogicの状態遷移ルールを検証するLogic層テスト。
+ * DB副作用やService全体の業務フローは扱わず、状態ごとの許可・不許可を確認する。
  */
 @RunWith(Seasar2.class)
 public class InvoiceWorkflowLogicTest {

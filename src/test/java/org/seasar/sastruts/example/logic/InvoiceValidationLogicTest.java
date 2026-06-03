@@ -1,4 +1,4 @@
-package org.seasar.sastruts.example.service;
+package org.seasar.sastruts.example.logic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,12 +8,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.sastruts.example.entity.Invoice;
-import org.seasar.sastruts.example.logic.InvoiceValidationLogic;
 
 /**
- * InvoiceValidationLogicの入力チェック責務を検証するS2JUnit4テスト。
- * Logic層単体を対象にし、タイトル・金額・請求書ID・存在チェックの正常系と異常系を確認する。
- * DBやFixtureは使わず、入力値の境界条件をレビューしやすい粒度で検証する。
+ * InvoiceValidationLogicの入力チェックを検証するLogic層テスト。
+ * DB副作用やService全体の業務フローは扱わず、入力値の境界条件を確認する。
  */
 @RunWith(Seasar2.class)
 public class InvoiceValidationLogicTest {

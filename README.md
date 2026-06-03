@@ -247,6 +247,16 @@ Git差分でレビューしやすく、複数TABLEやマスタデータの準備
 
 この検証では、Builder / Fixture / Scenario Fixture / SQLファイル方式を置き換え関係ではなく、用途に応じて併用する方針としています。
 
+## テストパッケージ構成
+
+テストクラスは、検証対象の責務に合わせて以下のように整理しています。
+
+- `org.seasar.sastruts.example.logic`: 入力検証、状態遷移、金額変更など、DB副作用を伴わないLogic層単体テスト
+- `org.seasar.sastruts.example.service`: 業務Service、DBアクセスService、Scenario Fixture、トランザクションなど、Service/Application層テスト
+- `org.seasar.sastruts.example.testsupport`: Builder、Fixture、Scenario Fixture、SQL実行補助などのテスト補助クラス
+
+これにより、業務ルール単体の検証と、複数クラス・複数TABLEを跨ぐ業務フロー検証を分けて確認しやすくしています。
+
 ## トランザクション・ロールバック検証
 
 `InvoicePaymentConfirmService#confirmPayment(Long invoiceId)` を対象に、複数DB更新を伴う業務Serviceで途中失敗時にロールバックされることを検証しました。

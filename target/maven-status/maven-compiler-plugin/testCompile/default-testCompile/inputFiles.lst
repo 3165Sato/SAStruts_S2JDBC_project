@@ -1,8 +1,8 @@
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoiceWorkflowLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\DbInvoiceScenarioFixtureTest.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoiceAmountLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceStoreTest.java
-D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceAmountLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbCustomerTestDataBuilder.java
-D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceWorkflowLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceFixture.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\SqlTestSupport.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbScenarioInvoiceTestDataBuilder.java
@@ -10,8 +10,8 @@ D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceScenario.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceScenarioFixture.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoiceValidationLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\DbInvoiceServiceTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbApprovalHistoryTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceServiceTest.java
-D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceValidationLogicTest.java
