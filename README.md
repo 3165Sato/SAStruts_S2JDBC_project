@@ -249,13 +249,68 @@ Git差分でレビューしやすく、複数TABLEやマスタデータの準備
 
 ## テストパッケージ構成
 
-テストクラスは、検証対象の責務に合わせて以下のように整理しています。
+main側では `service` パッケージに業務Service、DBアクセスService、処理フロー制御を置き、`logic` パッケージに入力検証、状態遷移判定、金額変更判定、履歴Entity生成などの業務ロジックを置いています。
 
-- `org.seasar.sastruts.example.logic`: 入力検証、状態遷移、金額変更など、DB副作用を伴わないLogic層単体テスト
-- `org.seasar.sastruts.example.service`: 業務Service、DBアクセスService、Scenario Fixture、トランザクションなど、Service/Application層テスト
-- `org.seasar.sastruts.example.testsupport`: Builder、Fixture、Scenario Fixture、SQL実行補助などのテスト補助クラス
+test側も同じ責務に対応するよう、以下のパッケージに整理しています。
 
-これにより、業務ルール単体の検証と、複数クラス・複数TABLEを跨ぐ業務フロー検証を分けて確認しやすくしています。
+### `src/test/java/org/seasar/sastruts/example/service`
+
+Service/Application層テストを配置します。
+
+主な役割:
+
+- Service/Application層テスト
+- DBありS2JUnit4テスト
+- 複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務フローテスト
+- トランザクション・ロールバック検証
+
+代表例:
+
+- `InvoiceServiceTest`
+- `DbInvoiceServiceTest`
+- `InvoicePaymentConfirmServiceTest`
+- `DbInvoiceScenarioFixtureTest`
+
+### `src/test/java/org/seasar/sastruts/example/logic`
+
+Logic層単体テストを配置します。
+
+主な役割:
+
+- 入力検証
+- 状態遷移判定
+- 金額変更判定
+- 履歴Entity生成
+- DB副作用を伴わない業務ルール単体の検証
+
+代表例:
+
+- `InvoiceValidationLogicTest`
+- `InvoiceWorkflowLogicTest`
+- `InvoiceAmountLogicTest`
+- `InvoicePaymentConfirmValidationLogicTest`（追加する場合の配置例）
+- `InvoicePaymentHistoryLogicTest`（追加する場合の配置例）
+
+### `src/test/java/org/seasar/sastruts/example/testsupport`
+
+テストデータ準備やSQL実行の補助クラスを配置します。
+
+主な役割:
+
+- TestDataBuilder
+- Fixture
+- Scenario Fixture
+- SQL実行補助
+- Excelなしテストデータ準備の補助
+
+代表例:
+
+- `DbInvoiceTestDataBuilder`
+- `DbInvoiceFixture`
+- `DbInvoiceScenarioFixture`
+- `SqlTestSupport`
+
+Logicテストは業務ルール単体を確認し、Serviceテストは複数クラスを組み合わせた業務フローやDB副作用を確認します。TestSupportはテストデータ準備を共通化するための領域です。AIでテストを生成する場合も、この責務に沿って配置します。
 
 ## トランザクション・ロールバック検証
 

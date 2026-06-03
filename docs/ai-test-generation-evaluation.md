@@ -186,6 +186,18 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 
 このように役割を分けることで、Excelテストデータへの依存を減らしつつ、レビューしやすさ、AIによる生成しやすさ、保守性を両立しやすくなる。
 
+## 8.1 テストパッケージ構成の整理
+
+main側では、Service層とLogic層の責務を分けている。これに合わせて、test側のテストクラスもLogic層テストとService/Application層テストに分離した。
+
+- `src/test/java/org/seasar/sastruts/example/logic`: 入力検証、状態遷移判定、金額変更判定、履歴Entity生成など、DB副作用を伴わないLogic層単体テスト
+- `src/test/java/org/seasar/sastruts/example/service`: 業務Service、DBアクセスService、複数Service / 複数Logicを跨ぐ業務フロー、DB副作用、トランザクションを確認するService/Application層テスト
+- `src/test/java/org/seasar/sastruts/example/testsupport`: TestDataBuilder、Fixture、Scenario Fixture、SQL実行補助などのテスト補助クラス
+
+この整理により、Logic単体テストとService結合寄りテストの境界が明確になった。AI生成テストをレビューする際にも、テスト対象が「業務ルール単体」なのか、「複数クラスを組み合わせた業務フロー」なのかを判断しやすくなる。
+
+また、今後さらに複雑な業務シナリオを追加する場合でも、テスト配置のルールが明確になった。AIにテスト生成を依頼する際は、対象の粒度に応じて `logic`、`service`、`testsupport` のどこへ置くべきかを明示することが重要である。
+
 ## 9. 今回の検証で分かったこと
 
 - Seasar2 / S2JUnit4でもAI生成テストは一定活用できる
@@ -194,6 +206,7 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 - Excel依存を減らすには、Builder / Fixture / Scenario Fixture / SQLファイル方式が有効である
 - 複数TABLEをまたぐ前提データも、Scenario FixtureによりJavaコード上で表現できる
 - AI生成テストでも複数Service / 複数Logic / DBアクセスServiceを跨ぐ業務処理を検証できる
+- テストクラス側もLogic層とService/Application層に分けることで、AI生成テストのレビュー時に対象粒度を判断しやすくなった
 - 副作用検証は明示的に指示しないと漏れやすい
 - Service層にトランザクション境界を置くことで、複数DB更新の途中失敗時にロールバックできることを確認できた
 - 本番コードを汚さず、テスト側の差し替えにより失敗注入できることを確認できた
