@@ -29,6 +29,10 @@ public final class DbScenarioInvoiceTestDataBuilder {
         return invoice(id, customerId, departmentId, DEFAULT_TITLE, DEFAULT_AMOUNT, "REJECTED");
     }
 
+    public static DbScenarioInvoice paymentConfirmedInvoice(Long id, Long customerId, Long departmentId) {
+        return invoice(id, customerId, departmentId, DEFAULT_TITLE, DEFAULT_AMOUNT, "PAYMENT_CONFIRMED");
+    }
+
     public static DbScenarioInvoice invoice(Long id, Long customerId, Long departmentId,
             String title, BigDecimal amount, String status) {
         DbScenarioInvoice invoice = new DbScenarioInvoice();

@@ -93,6 +93,26 @@ public class DbInvoiceScenarioFixture {
         return new DbInvoiceScenario(customer, department, invoice, history);
     }
 
+    public DbInvoiceScenario createPaymentConfirmedInvoiceScenario() {
+        Long customerId = nextId();
+        Long departmentId = nextId();
+        Long invoiceId = nextId();
+        Long historyId = nextId();
+
+        DbCustomer customer = DbCustomerTestDataBuilder.customer(customerId);
+        DbDepartment department = DbDepartmentTestDataBuilder.department(departmentId);
+        DbScenarioInvoice invoice = DbScenarioInvoiceTestDataBuilder.paymentConfirmedInvoice(
+                invoiceId, customerId, departmentId);
+        DbApprovalHistory history = DbApprovalHistoryTestDataBuilder.paymentConfirmedHistory(historyId, invoiceId);
+
+        dbCustomerDao.insert(customer);
+        dbDepartmentDao.insert(department);
+        dbScenarioInvoiceDao.insert(invoice);
+        dbApprovalHistoryDao.insert(history);
+
+        return new DbInvoiceScenario(customer, department, invoice, history);
+    }
+
     private Long nextId() {
         Long id = Long.valueOf(nextId);
         nextId++;

@@ -2,6 +2,7 @@ D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\Invoi
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\DbInvoiceScenarioFixtureTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoiceAmountLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceStoreTest.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoicePaymentConfirmValidationLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbCustomerTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceFixture.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\SqlTestSupport.java

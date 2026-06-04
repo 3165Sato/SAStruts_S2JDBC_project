@@ -23,6 +23,10 @@ public final class DbApprovalHistoryTestDataBuilder {
         return history(id, invoiceId, "test approver", DEFAULT_APPROVED_AT, "REJECTED");
     }
 
+    public static DbApprovalHistory paymentConfirmedHistory(Long id, Long invoiceId) {
+        return history(id, invoiceId, "test approver", DEFAULT_APPROVED_AT, "PAYMENT_CONFIRMED");
+    }
+
     public static DbApprovalHistory history(Long id, Long invoiceId,
             String approverName, Timestamp approvedAt, String status) {
         DbApprovalHistory history = new DbApprovalHistory();
