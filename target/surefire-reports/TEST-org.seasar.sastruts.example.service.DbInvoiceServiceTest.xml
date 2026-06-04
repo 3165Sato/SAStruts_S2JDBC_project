@@ -64,11 +64,11 @@
     <property name="sun.desktop" value="windows"/>
     <property name="sun.cpu.isalist" value="amd64"/>
   </properties>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testCount" time="0.033"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testCountUsingSqlFileData" time="0.029"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindByIdNotFound" time="0.03"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindByIdUsingSqlFileData" time="0.049"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testInsert" time="0.029"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testUpdateStatus" time="0.028"/>
-  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindById" time="0.035"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testUpdateStatus" time="0.048"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindById" time="0.045"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testInsert" time="0.02"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testCount" time="0.028"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindByIdNotFound" time="0.028"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testFindByIdUsingSqlFileData" time="0.024"/>
+  <testcase classname="org.seasar.sastruts.example.service.DbInvoiceServiceTest" name="testCountUsingSqlFileData" time="0.04"/>
 </testsuite>

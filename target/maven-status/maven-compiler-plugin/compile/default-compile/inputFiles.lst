@@ -2,8 +2,10 @@ D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\logic\Invoi
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoicePaymentConfirmService.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\InvoiceStatus.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\dao\DbDepartmentDao.java
+D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\cache\InvoiceCache.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\DbScenarioInvoice.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\dao\DbCustomerDao.java
+D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\service\InvoiceCachedReferenceService.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\entity\DbApprovalHistory.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\logic\InvoiceAmountLogic.java
 D:\workspace_cicd\sastruts\src\main\java\org\seasar\sastruts\example\logic\InvoiceValidationLogic.java

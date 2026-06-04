@@ -5,6 +5,7 @@ D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\Inv
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoicePaymentConfirmValidationLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbCustomerTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceFixture.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\cache\InvoiceCacheTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\SqlTestSupport.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbScenarioInvoiceTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceTestDataBuilder.java
@@ -13,6 +14,7 @@ D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\Inv
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbInvoiceScenarioFixture.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\logic\InvoiceValidationLogicTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.java
+D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceCachedReferenceServiceTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\DbInvoiceServiceTest.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\testsupport\DbApprovalHistoryTestDataBuilder.java
 D:\workspace_cicd\sastruts\src\test\java\org\seasar\sastruts\example\service\InvoiceServiceTest.java

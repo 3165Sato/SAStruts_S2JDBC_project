@@ -11,4 +11,7 @@
 	<component class="org.seasar.framework.container.creator.DtoCreator"/>
 	<component class="org.seasar.framework.container.creator.InterceptorCreator"/>
 	<component class="org.seasar.framework.container.creator.DaoCreator"/>
+	<component class="org.seasar.framework.container.creator.ComponentCreatorImpl">
+		<property name="nameSuffix">"Cache"</property>
+	</component>
 </components>
