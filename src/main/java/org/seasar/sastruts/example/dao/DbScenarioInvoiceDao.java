@@ -1,11 +1,11 @@
-package org.seasar.sastruts.example.service;
+package org.seasar.sastruts.example.dao;
 
 import java.util.List;
 
 import org.seasar.extension.jdbc.JdbcManager;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 
-public class DbScenarioInvoiceService {
+public class DbScenarioInvoiceDao {
 
     public JdbcManager jdbcManager;
 

@@ -77,4 +77,9 @@
       <arg>traceCustomizer</arg>
     </initMethod>
   </component>
+  <component name="daoCustomizer" class="org.seasar.framework.container.customizer.CustomizerChain">
+    <initMethod name="addCustomizer">
+      <arg>traceCustomizer</arg>
+    </initMethod>
+  </component>
 </components>

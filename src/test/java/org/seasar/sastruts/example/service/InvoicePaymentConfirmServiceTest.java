@@ -13,6 +13,10 @@ import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.framework.unit.annotation.TxBehavior;
 import org.seasar.framework.unit.annotation.TxBehaviorType;
+import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
+import org.seasar.sastruts.example.dao.DbCustomerDao;
+import org.seasar.sastruts.example.dao.DbDepartmentDao;
+import org.seasar.sastruts.example.dao.DbScenarioInvoiceDao;
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 import org.seasar.sastruts.example.testsupport.DbInvoiceScenario;
@@ -21,7 +25,7 @@ import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
 /**
  * InvoicePaymentConfirmServiceの支払確定処理を検証するS2JUnit4テスト。
- * Service入口からLogic、DBアクセスServiceを跨ぐ処理をH2インメモリDBで確認する。
+ * Service入口からLogic、Daoを跨ぐ処理をH2インメモリDBで確認する。
  */
 @RunWith(Seasar2.class)
 public class InvoicePaymentConfirmServiceTest {
@@ -30,13 +34,13 @@ public class InvoicePaymentConfirmServiceTest {
 
     public InvoicePaymentConfirmService invoicePaymentConfirmService;
 
-    public DbCustomerService dbCustomerService;
+    public DbCustomerDao dbCustomerDao;
 
-    public DbDepartmentService dbDepartmentService;
+    public DbDepartmentDao dbDepartmentDao;
 
-    public DbScenarioInvoiceService dbScenarioInvoiceService;
+    public DbScenarioInvoiceDao dbScenarioInvoiceDao;
 
-    public DbApprovalHistoryService dbApprovalHistoryService;
+    public DbApprovalHistoryDao dbApprovalHistoryDao;
 
     private DbInvoiceScenarioFixture dbInvoiceScenarioFixture;
 
@@ -48,19 +52,21 @@ public class InvoicePaymentConfirmServiceTest {
         assertNotNull(invoicePaymentConfirmService);
         assertNotNull(invoicePaymentConfirmService.invoicePaymentConfirmValidationLogic);
         assertNotNull(invoicePaymentConfirmService.invoicePaymentHistoryLogic);
-        assertNotNull(dbCustomerService);
-        assertNotNull(dbDepartmentService);
-        assertNotNull(dbScenarioInvoiceService);
-        assertNotNull(dbApprovalHistoryService);
+        assertNotNull(invoicePaymentConfirmService.dbScenarioInvoiceDao);
+        assertNotNull(invoicePaymentConfirmService.dbApprovalHistoryDao);
+        assertNotNull(dbCustomerDao);
+        assertNotNull(dbDepartmentDao);
+        assertNotNull(dbScenarioInvoiceDao);
+        assertNotNull(dbApprovalHistoryDao);
 
         sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropScenarioTables();
         sqlTestSupport.executeSqlFile("sql/db_invoice_scenario_schema.sql");
         dbInvoiceScenarioFixture = new DbInvoiceScenarioFixture(
-                dbCustomerService,
-                dbDepartmentService,
-                dbScenarioInvoiceService,
-                dbApprovalHistoryService);
+                dbCustomerDao,
+                dbDepartmentDao,
+                dbScenarioInvoiceDao,
+                dbApprovalHistoryDao);
     }
 
     // 承認済み請求書を支払確定でき、ステータスがPAYMENT_CONFIRMEDになることを確認する。
@@ -73,7 +79,7 @@ public class InvoicePaymentConfirmServiceTest {
 
         assertEquals("PAYMENT_CONFIRMED", paymentConfirmed.getStatus());
         assertEquals("PAYMENT_CONFIRMED",
-                dbScenarioInvoiceService.findById(scenario.getInvoice().getId()).getStatus());
+                dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()).getStatus());
     }
 
     // 支払確定後、対象請求書IDに紐づくPAYMENT_CONFIRMED履歴が追加されることを確認する。
@@ -83,7 +89,7 @@ public class InvoicePaymentConfirmServiceTest {
 
         invoicePaymentConfirmService.confirmPayment(scenario.getInvoice().getId());
 
-        List<DbApprovalHistory> histories = dbApprovalHistoryService.findByInvoiceId(
+        List<DbApprovalHistory> histories = dbApprovalHistoryDao.findByInvoiceId(
                 scenario.getInvoice().getId());
         DbApprovalHistory paymentHistory = histories.get(histories.size() - 1);
 
@@ -98,51 +104,51 @@ public class InvoicePaymentConfirmServiceTest {
     public void testConfirmPaymentRollsBackWhenHistoryInsertFails() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
         Long invoiceId = scenario.getInvoice().getId();
-        long historyCountBefore = dbApprovalHistoryService.count();
-        DbApprovalHistoryService originalDbApprovalHistoryService =
-                invoicePaymentConfirmService.dbApprovalHistoryService;
+        long historyCountBefore = dbApprovalHistoryDao.count();
+        DbApprovalHistoryDao originalDbApprovalHistoryDao =
+                invoicePaymentConfirmService.dbApprovalHistoryDao;
 
-        assertEquals("APPROVED", dbScenarioInvoiceService.findById(invoiceId).getStatus());
+        assertEquals("APPROVED", dbScenarioInvoiceDao.findById(invoiceId).getStatus());
 
-        invoicePaymentConfirmService.dbApprovalHistoryService =
-                new FailingDbApprovalHistoryService();
+        invoicePaymentConfirmService.dbApprovalHistoryDao =
+                new FailingDbApprovalHistoryDao();
         try {
             invoicePaymentConfirmService.confirmPayment(invoiceId);
             fail("Expected RuntimeException.");
         } catch (RuntimeException e) {
             assertEquals("intentional failure for rollback test", e.getMessage());
         } finally {
-            invoicePaymentConfirmService.dbApprovalHistoryService =
-                    originalDbApprovalHistoryService;
+            invoicePaymentConfirmService.dbApprovalHistoryDao =
+                    originalDbApprovalHistoryDao;
         }
 
-        assertEquals("APPROVED", dbScenarioInvoiceService.findById(invoiceId).getStatus());
-        assertEquals(historyCountBefore, dbApprovalHistoryService.count());
+        assertEquals("APPROVED", dbScenarioInvoiceDao.findById(invoiceId).getStatus());
+        assertEquals(historyCountBefore, dbApprovalHistoryDao.count());
     }
 
     // invoiceIdがnullの場合は支払確定できず、履歴も増えないことを確認する。
     @Test
     public void testConfirmPaymentInvoiceIdNull() {
-        assertEquals(0L, dbApprovalHistoryService.count());
+        assertEquals(0L, dbApprovalHistoryDao.count());
 
         try {
             invoicePaymentConfirmService.confirmPayment(null);
             fail("Expected IllegalArgumentException.");
         } catch (IllegalArgumentException e) {
-            assertEquals(0L, dbApprovalHistoryService.count());
+            assertEquals(0L, dbApprovalHistoryDao.count());
         }
     }
 
     // 存在しない請求書IDの場合は支払確定できず、履歴が増えないことを確認する。
     @Test
     public void testConfirmPaymentInvoiceIdNotFound() {
-        assertEquals(0L, dbApprovalHistoryService.count());
+        assertEquals(0L, dbApprovalHistoryDao.count());
 
         try {
             invoicePaymentConfirmService.confirmPayment(Long.valueOf(999L));
             fail("Expected IllegalArgumentException.");
         } catch (IllegalArgumentException e) {
-            assertEquals(0L, dbApprovalHistoryService.count());
+            assertEquals(0L, dbApprovalHistoryDao.count());
         }
     }
 
@@ -156,8 +162,8 @@ public class InvoicePaymentConfirmServiceTest {
             fail("Expected IllegalStateException.");
         } catch (IllegalStateException e) {
             assertEquals("UNAPPROVED",
-                    dbScenarioInvoiceService.findById(scenario.getInvoice().getId()).getStatus());
-            assertEquals(0L, dbApprovalHistoryService.count());
+                    dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()).getStatus());
+            assertEquals(0L, dbApprovalHistoryDao.count());
         }
     }
 
@@ -171,9 +177,9 @@ public class InvoicePaymentConfirmServiceTest {
             fail("Expected IllegalStateException.");
         } catch (IllegalStateException e) {
             assertEquals("REJECTED",
-                    dbScenarioInvoiceService.findById(scenario.getInvoice().getId()).getStatus());
-            assertEquals(1, dbApprovalHistoryService.findByInvoiceId(scenario.getInvoice().getId()).size());
-            assertEquals(1L, dbApprovalHistoryService.count());
+                    dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()).getStatus());
+            assertEquals(1, dbApprovalHistoryDao.findByInvoiceId(scenario.getInvoice().getId()).size());
+            assertEquals(1L, dbApprovalHistoryDao.count());
         }
     }
 
@@ -188,9 +194,9 @@ public class InvoicePaymentConfirmServiceTest {
             fail("Expected IllegalStateException.");
         } catch (IllegalStateException e) {
             assertEquals("PAYMENT_CONFIRMED",
-                    dbScenarioInvoiceService.findById(scenario.getInvoice().getId()).getStatus());
-            assertEquals(2, dbApprovalHistoryService.findByInvoiceId(scenario.getInvoice().getId()).size());
-            assertEquals(2L, dbApprovalHistoryService.count());
+                    dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()).getStatus());
+            assertEquals(2, dbApprovalHistoryDao.findByInvoiceId(scenario.getInvoice().getId()).size());
+            assertEquals(2L, dbApprovalHistoryDao.count());
         }
     }
 
@@ -209,7 +215,7 @@ public class InvoicePaymentConfirmServiceTest {
         }
     }
 
-    private static class FailingDbApprovalHistoryService extends DbApprovalHistoryService {
+    private static class FailingDbApprovalHistoryDao extends DbApprovalHistoryDao {
 
         @Override
         public int insert(DbApprovalHistory history) {

@@ -11,6 +11,10 @@ import org.junit.runner.RunWith;
 import org.seasar.extension.jdbc.JdbcManager;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
+import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
+import org.seasar.sastruts.example.dao.DbCustomerDao;
+import org.seasar.sastruts.example.dao.DbDepartmentDao;
+import org.seasar.sastruts.example.dao.DbScenarioInvoiceDao;
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 import org.seasar.sastruts.example.testsupport.DbInvoiceScenario;
@@ -19,7 +23,7 @@ import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
 /**
  * 複数TABLEをまたぐDbInvoiceScenarioFixtureを検証するS2JUnit4テスト。
- * Service層とScenario Fixtureを対象にし、H2インメモリDB上で顧客・部署・請求書・承認履歴の関連を確認する。
+ * Dao層とScenario Fixtureを対象にし、H2インメモリDB上で顧客・部署・請求書・承認履歴の関連を確認する。
  * DDLはSQLファイルで準備し、Scenario FixtureでExcelに依存しない業務状態を作成する。
  */
 @RunWith(Seasar2.class)
@@ -27,13 +31,13 @@ public class DbInvoiceScenarioFixtureTest {
 
     public JdbcManager jdbcManager;
 
-    public DbCustomerService dbCustomerService;
+    public DbCustomerDao dbCustomerDao;
 
-    public DbDepartmentService dbDepartmentService;
+    public DbDepartmentDao dbDepartmentDao;
 
-    public DbScenarioInvoiceService dbScenarioInvoiceService;
+    public DbScenarioInvoiceDao dbScenarioInvoiceDao;
 
-    public DbApprovalHistoryService dbApprovalHistoryService;
+    public DbApprovalHistoryDao dbApprovalHistoryDao;
 
     private DbInvoiceScenarioFixture dbInvoiceScenarioFixture;
 
@@ -42,19 +46,19 @@ public class DbInvoiceScenarioFixtureTest {
     @PostBindFields
     public void setUp() {
         assertNotNull(jdbcManager);
-        assertNotNull(dbCustomerService);
-        assertNotNull(dbDepartmentService);
-        assertNotNull(dbScenarioInvoiceService);
-        assertNotNull(dbApprovalHistoryService);
+        assertNotNull(dbCustomerDao);
+        assertNotNull(dbDepartmentDao);
+        assertNotNull(dbScenarioInvoiceDao);
+        assertNotNull(dbApprovalHistoryDao);
 
         sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropScenarioTables();
         sqlTestSupport.executeSqlFile("sql/db_invoice_scenario_schema.sql");
         dbInvoiceScenarioFixture = new DbInvoiceScenarioFixture(
-                dbCustomerService,
-                dbDepartmentService,
-                dbScenarioInvoiceService,
-                dbApprovalHistoryService);
+                dbCustomerDao,
+                dbDepartmentDao,
+                dbScenarioInvoiceDao,
+                dbApprovalHistoryDao);
     }
 
     // 顧客・部署が存在する前提をScenario Fixtureで作り、未承認請求書と履歴なしの状態を確認する。
@@ -62,16 +66,16 @@ public class DbInvoiceScenarioFixtureTest {
     public void testCreateUnapprovedInvoiceScenario() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createUnapprovedInvoiceScenario();
 
-        assertNotNull(dbCustomerService.findById(scenario.getCustomer().getId()));
-        assertNotNull(dbDepartmentService.findById(scenario.getDepartment().getId()));
+        assertNotNull(dbCustomerDao.findById(scenario.getCustomer().getId()));
+        assertNotNull(dbDepartmentDao.findById(scenario.getDepartment().getId()));
 
-        DbScenarioInvoice invoice = dbScenarioInvoiceService.findById(scenario.getInvoice().getId());
+        DbScenarioInvoice invoice = dbScenarioInvoiceDao.findById(scenario.getInvoice().getId());
         assertNotNull(invoice);
         assertEquals("UNAPPROVED", invoice.getStatus());
         assertEquals(scenario.getCustomer().getId(), invoice.getCustomerId());
         assertEquals(scenario.getDepartment().getId(), invoice.getDepartmentId());
         assertNull(scenario.getApprovalHistory());
-        assertEquals(0L, dbApprovalHistoryService.count());
+        assertEquals(0L, dbApprovalHistoryDao.count());
     }
 
     // 承認済みシナリオを作成し、顧客・部署・請求書・承認履歴がまとめてDB登録されることを確認する。
@@ -79,11 +83,11 @@ public class DbInvoiceScenarioFixtureTest {
     public void testCreateApprovedInvoiceScenario() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
 
-        assertNotNull(dbCustomerService.findById(scenario.getCustomer().getId()));
-        assertNotNull(dbDepartmentService.findById(scenario.getDepartment().getId()));
-        assertNotNull(dbScenarioInvoiceService.findById(scenario.getInvoice().getId()));
+        assertNotNull(dbCustomerDao.findById(scenario.getCustomer().getId()));
+        assertNotNull(dbDepartmentDao.findById(scenario.getDepartment().getId()));
+        assertNotNull(dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()));
         assertNotNull(scenario.getApprovalHistory());
-        assertNotNull(dbApprovalHistoryService.findById(scenario.getApprovalHistory().getId()));
+        assertNotNull(dbApprovalHistoryDao.findById(scenario.getApprovalHistory().getId()));
         assertEquals("APPROVED", scenario.getInvoice().getStatus());
         assertEquals("APPROVED", scenario.getApprovalHistory().getStatus());
     }
@@ -93,7 +97,7 @@ public class DbInvoiceScenarioFixtureTest {
     public void testApprovedScenarioLinksInvoiceAndApprovalHistory() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
 
-        List<DbApprovalHistory> histories = dbApprovalHistoryService.findByInvoiceId(
+        List<DbApprovalHistory> histories = dbApprovalHistoryDao.findByInvoiceId(
                 scenario.getInvoice().getId());
 
         assertEquals(1, histories.size());
@@ -108,13 +112,13 @@ public class DbInvoiceScenarioFixtureTest {
         DbInvoiceScenario approved = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
         DbInvoiceScenario rejected = dbInvoiceScenarioFixture.createRejectedInvoiceScenario();
 
-        assertNotNull(dbScenarioInvoiceService.findById(unapproved.getInvoice().getId()));
-        assertNotNull(dbScenarioInvoiceService.findById(approved.getInvoice().getId()));
-        assertNotNull(dbScenarioInvoiceService.findById(rejected.getInvoice().getId()));
-        assertEquals(3L, dbCustomerService.count());
-        assertEquals(3L, dbDepartmentService.count());
-        assertEquals(3L, dbScenarioInvoiceService.count());
-        assertEquals(2L, dbApprovalHistoryService.count());
+        assertNotNull(dbScenarioInvoiceDao.findById(unapproved.getInvoice().getId()));
+        assertNotNull(dbScenarioInvoiceDao.findById(approved.getInvoice().getId()));
+        assertNotNull(dbScenarioInvoiceDao.findById(rejected.getInvoice().getId()));
+        assertEquals(3L, dbCustomerDao.count());
+        assertEquals(3L, dbDepartmentDao.count());
+        assertEquals(3L, dbScenarioInvoiceDao.count());
+        assertEquals(2L, dbApprovalHistoryDao.count());
     }
 
     private void dropScenarioTables() {

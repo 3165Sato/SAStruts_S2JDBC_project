@@ -1,5 +1,7 @@
 package org.seasar.sastruts.example.service;
 
+import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
+import org.seasar.sastruts.example.dao.DbScenarioInvoiceDao;
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 import org.seasar.sastruts.example.logic.InvoicePaymentConfirmValidationLogic;
@@ -7,9 +9,9 @@ import org.seasar.sastruts.example.logic.InvoicePaymentHistoryLogic;
 
 public class InvoicePaymentConfirmService {
 
-    public DbScenarioInvoiceService dbScenarioInvoiceService;
+    public DbScenarioInvoiceDao dbScenarioInvoiceDao;
 
-    public DbApprovalHistoryService dbApprovalHistoryService;
+    public DbApprovalHistoryDao dbApprovalHistoryDao;
 
     public InvoicePaymentConfirmValidationLogic invoicePaymentConfirmValidationLogic;
 
@@ -18,14 +20,14 @@ public class InvoicePaymentConfirmService {
     public DbScenarioInvoice confirmPayment(Long invoiceId) {
         invoicePaymentConfirmValidationLogic.validateInvoiceId(invoiceId);
 
-        DbScenarioInvoice invoice = dbScenarioInvoiceService.findById(invoiceId);
+        DbScenarioInvoice invoice = dbScenarioInvoiceDao.findById(invoiceId);
         invoicePaymentConfirmValidationLogic.validateInvoiceExists(invoice);
         invoicePaymentConfirmValidationLogic.validateCanConfirmPayment(invoice);
 
-        dbScenarioInvoiceService.updateStatus(invoiceId, "PAYMENT_CONFIRMED");
-        DbScenarioInvoice paymentConfirmed = dbScenarioInvoiceService.findById(invoiceId);
+        dbScenarioInvoiceDao.updateStatus(invoiceId, "PAYMENT_CONFIRMED");
+        DbScenarioInvoice paymentConfirmed = dbScenarioInvoiceDao.findById(invoiceId);
         DbApprovalHistory history = invoicePaymentHistoryLogic.createPaymentConfirmedHistory(paymentConfirmed);
-        dbApprovalHistoryService.insert(history);
+        dbApprovalHistoryDao.insert(history);
         return paymentConfirmed;
     }
 }
