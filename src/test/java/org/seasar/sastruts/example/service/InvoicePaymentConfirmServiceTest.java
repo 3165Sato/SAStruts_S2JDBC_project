@@ -1,7 +1,9 @@
 package org.seasar.sastruts.example.service;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.framework.unit.annotation.TxBehavior;
 import org.seasar.framework.unit.annotation.TxBehaviorType;
+import org.seasar.sastruts.example.cache.InvoiceCache;
 import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
 import org.seasar.sastruts.example.dao.DbCustomerDao;
 import org.seasar.sastruts.example.dao.DbDepartmentDao;
@@ -34,6 +37,10 @@ public class InvoicePaymentConfirmServiceTest {
 
     public InvoicePaymentConfirmService invoicePaymentConfirmService;
 
+    public InvoiceCachedReferenceService invoiceCachedReferenceService;
+
+    public InvoiceCache invoiceCache;
+
     public DbCustomerDao dbCustomerDao;
 
     public DbDepartmentDao dbDepartmentDao;
@@ -50,15 +57,19 @@ public class InvoicePaymentConfirmServiceTest {
     public void setUp() {
         assertNotNull(jdbcManager);
         assertNotNull(invoicePaymentConfirmService);
+        assertNotNull(invoicePaymentConfirmService.invoiceCache);
         assertNotNull(invoicePaymentConfirmService.invoicePaymentConfirmValidationLogic);
         assertNotNull(invoicePaymentConfirmService.invoicePaymentHistoryLogic);
         assertNotNull(invoicePaymentConfirmService.dbScenarioInvoiceDao);
         assertNotNull(invoicePaymentConfirmService.dbApprovalHistoryDao);
+        assertNotNull(invoiceCachedReferenceService);
+        assertNotNull(invoiceCache);
         assertNotNull(dbCustomerDao);
         assertNotNull(dbDepartmentDao);
         assertNotNull(dbScenarioInvoiceDao);
         assertNotNull(dbApprovalHistoryDao);
 
+        invoiceCache.clear();
         sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropScenarioTables();
         sqlTestSupport.executeSqlFile("sql/db_invoice_scenario_schema.sql");
@@ -80,6 +91,24 @@ public class InvoicePaymentConfirmServiceTest {
         assertEquals("PAYMENT_CONFIRMED", paymentConfirmed.getStatus());
         assertEquals("PAYMENT_CONFIRMED",
                 dbScenarioInvoiceDao.findById(scenario.getInvoice().getId()).getStatus());
+    }
+
+    // 支払確定が成功した後、古い請求書キャッシュがevictされ、再参照でDB最新状態を取得できることを確認する。
+    @Test
+    public void testConfirmPaymentEvictsInvoiceCache() {
+        DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
+        Long invoiceId = scenario.getInvoice().getId();
+
+        DbScenarioInvoice cached = invoiceCachedReferenceService.findById(invoiceId);
+        assertEquals("APPROVED", cached.getStatus());
+        assertTrue(invoiceCache.contains(invoiceId));
+
+        invoicePaymentConfirmService.confirmPayment(invoiceId);
+
+        assertFalse(invoiceCache.contains(invoiceId));
+        DbScenarioInvoice reloaded = invoiceCachedReferenceService.findById(invoiceId);
+        assertEquals("PAYMENT_CONFIRMED", reloaded.getStatus());
+        assertTrue(invoiceCache.contains(invoiceId));
     }
 
     // 支払確定後、対象請求書IDに紐づくPAYMENT_CONFIRMED履歴が追加されることを確認する。

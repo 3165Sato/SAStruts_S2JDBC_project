@@ -2,6 +2,7 @@ package org.seasar.sastruts.example.service;
 
 import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
 import org.seasar.sastruts.example.dao.DbScenarioInvoiceDao;
+import org.seasar.sastruts.example.cache.InvoiceCache;
 import org.seasar.sastruts.example.entity.DbApprovalHistory;
 import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 import org.seasar.sastruts.example.logic.InvoicePaymentConfirmValidationLogic;
@@ -12,6 +13,8 @@ public class InvoicePaymentConfirmService {
     public DbScenarioInvoiceDao dbScenarioInvoiceDao;
 
     public DbApprovalHistoryDao dbApprovalHistoryDao;
+
+    public InvoiceCache invoiceCache;
 
     public InvoicePaymentConfirmValidationLogic invoicePaymentConfirmValidationLogic;
 
@@ -28,6 +31,7 @@ public class InvoicePaymentConfirmService {
         DbScenarioInvoice paymentConfirmed = dbScenarioInvoiceDao.findById(invoiceId);
         DbApprovalHistory history = invoicePaymentHistoryLogic.createPaymentConfirmedHistory(paymentConfirmed);
         dbApprovalHistoryDao.insert(history);
+        invoiceCache.evict(invoiceId);
         return paymentConfirmed;
     }
 }
