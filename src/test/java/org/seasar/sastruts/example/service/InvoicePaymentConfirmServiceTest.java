@@ -70,6 +70,8 @@ public class InvoicePaymentConfirmServiceTest {
         assertNotNull(dbApprovalHistoryDao);
 
         invoiceCache.clear();
+        invoiceCache.deactivate();
+        invoiceCache.activate();
         sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropScenarioTables();
         sqlTestSupport.executeSqlFile("sql/db_invoice_scenario_schema.sql");

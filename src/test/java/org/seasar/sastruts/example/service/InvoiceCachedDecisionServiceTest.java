@@ -3,8 +3,8 @@ package org.seasar.sastruts.example.service;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,25 +12,25 @@ import org.seasar.extension.jdbc.JdbcManager;
 import org.seasar.framework.unit.Seasar2;
 import org.seasar.framework.unit.annotation.PostBindFields;
 import org.seasar.sastruts.example.cache.InvoiceCache;
+import org.seasar.sastruts.example.cache.InvoiceCacheLoader;
 import org.seasar.sastruts.example.dao.DbApprovalHistoryDao;
 import org.seasar.sastruts.example.dao.DbCustomerDao;
 import org.seasar.sastruts.example.dao.DbDepartmentDao;
 import org.seasar.sastruts.example.dao.DbScenarioInvoiceDao;
-import org.seasar.sastruts.example.entity.DbScenarioInvoice;
 import org.seasar.sastruts.example.testsupport.DbInvoiceScenario;
 import org.seasar.sastruts.example.testsupport.DbInvoiceScenarioFixture;
 import org.seasar.sastruts.example.testsupport.SqlTestSupport;
 
 /**
- * InvoiceCachedReferenceServiceのDB参照結果キャッシュを検証するS2JUnit4テスト。
- * H2インメモリDBで前提データを作り、初回DB取得と2回目以降のキャッシュ取得を確認する。
+ * InvoiceCachedDecisionServiceが事前ロード済みCacheを参照する前提を検証するS2JUnit4テスト。
+ * LogicやDaoにCache責務を持たせず、テスト側でH2投入とCacheLoader実行の順序を確認する。
  */
 @RunWith(Seasar2.class)
-public class InvoiceCachedReferenceServiceTest {
+public class InvoiceCachedDecisionServiceTest {
 
     public JdbcManager jdbcManager;
 
-    public InvoiceCachedReferenceService invoiceCachedReferenceService;
+    public InvoiceCachedDecisionService invoiceCachedDecisionService;
 
     public InvoiceCache invoiceCache;
 
@@ -46,11 +46,13 @@ public class InvoiceCachedReferenceServiceTest {
 
     private SqlTestSupport sqlTestSupport;
 
+    private InvoiceCacheLoader invoiceCacheLoader;
+
     @PostBindFields
     public void setUp() {
         assertNotNull(jdbcManager);
-        assertNotNull(invoiceCachedReferenceService);
-        assertNotNull(invoiceCachedReferenceService.invoiceCache);
+        assertNotNull(invoiceCachedDecisionService);
+        assertNotNull(invoiceCachedDecisionService.invoiceCache);
         assertNotNull(invoiceCache);
         assertNotNull(dbCustomerDao);
         assertNotNull(dbDepartmentDao);
@@ -59,7 +61,6 @@ public class InvoiceCachedReferenceServiceTest {
 
         invoiceCache.clear();
         invoiceCache.deactivate();
-        invoiceCache.activate();
         sqlTestSupport = new SqlTestSupport(jdbcManager);
         dropScenarioTables();
         sqlTestSupport.executeSqlFile("sql/db_invoice_scenario_schema.sql");
@@ -68,54 +69,52 @@ public class InvoiceCachedReferenceServiceTest {
                 dbDepartmentDao,
                 dbScenarioInvoiceDao,
                 dbApprovalHistoryDao);
+        invoiceCacheLoader = new InvoiceCacheLoader(dbScenarioInvoiceDao, invoiceCache);
     }
 
-    // 初回findByIdではDBから請求書を取得し、InvoiceCacheに保存されることを確認する。
+    // 脱Excel相当としてFixtureでH2へ投入しただけではCacheがactiveにならず、Cache not activeになることを確認する。
     @Test
-    public void testFindByIdLoadsFromDbAndCachesInvoice() {
+    public void testCanConfirmPaymentThrowsCacheNotActiveWithoutCacheLoad() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
-        Long invoiceId = scenario.getInvoice().getId();
 
-        DbScenarioInvoice invoice = invoiceCachedReferenceService.findById(invoiceId);
-
-        assertNotNull(invoice);
-        assertEquals("APPROVED", invoice.getStatus());
-        assertTrue(invoiceCache.contains(invoiceId));
-        assertEquals(1, invoiceCache.size());
+        try {
+            invoiceCachedDecisionService.canConfirmPayment(scenario.getInvoice().getId());
+            fail("Expected IllegalStateException.");
+        } catch (IllegalStateException e) {
+            assertEquals("Cache not active", e.getMessage());
+            assertEquals(1L, dbScenarioInvoiceDao.count());
+            assertFalse(invoiceCache.isActive());
+        }
     }
 
-    // 2回目findByIdではDBを更新してもキャッシュ済みの請求書が返ることを確認する。
+    // Excel相当としてH2投入後にCacheLoader.loadを呼ぶと、APPROVED請求書を支払確定可能と判定できる。
     @Test
-    public void testFindByIdReturnsCachedInvoiceAfterFirstLoad() {
+    public void testCanConfirmPaymentReturnsTrueAfterCacheLoadForApprovedInvoice() {
         DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createApprovedInvoiceScenario();
-        Long invoiceId = scenario.getInvoice().getId();
+        invoiceCacheLoader.load();
 
-        DbScenarioInvoice first = invoiceCachedReferenceService.findById(invoiceId);
-        dbScenarioInvoiceDao.updateStatus(invoiceId, "REJECTED");
-        DbScenarioInvoice second = invoiceCachedReferenceService.findById(invoiceId);
-
-        assertEquals("APPROVED", first.getStatus());
-        assertEquals("APPROVED", second.getStatus());
-        assertEquals("REJECTED", dbScenarioInvoiceDao.findById(invoiceId).getStatus());
-        assertEquals(1, invoiceCache.size());
+        assertTrue(invoiceCache.isActive());
+        assertTrue(invoiceCachedDecisionService.canConfirmPayment(scenario.getInvoice().getId()));
     }
 
-    // 存在しないIDはnullを返し、null結果をキャッシュしないことを確認する。
+    // H2投入後にCacheLoader.loadを呼んだ状態で、UNAPPROVED請求書は支払確定不可と判定される。
     @Test
-    public void testFindByIdDoesNotCacheMissingInvoice() {
-        Long invoiceId = Long.valueOf(999L);
+    public void testCanConfirmPaymentReturnsFalseAfterCacheLoadForUnapprovedInvoice() {
+        DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createUnapprovedInvoiceScenario();
+        invoiceCacheLoader.load();
 
-        DbScenarioInvoice invoice = invoiceCachedReferenceService.findById(invoiceId);
-
-        assertNull(invoice);
-        assertFalse(invoiceCache.contains(invoiceId));
-        assertEquals(0, invoiceCache.size());
+        assertTrue(invoiceCache.isActive());
+        assertFalse(invoiceCachedDecisionService.canConfirmPayment(scenario.getInvoice().getId()));
     }
 
-    // setUpでcache.clear()されるため、テスト開始時点のキャッシュが空であることを確認する。
+    // H2投入後にCacheLoader.loadを呼んだ状態で、REJECTED請求書は支払確定不可と判定される。
     @Test
-    public void testCacheIsClearedBySetUp() {
-        assertEquals(0, invoiceCache.size());
+    public void testCanConfirmPaymentReturnsFalseAfterCacheLoadForRejectedInvoice() {
+        DbInvoiceScenario scenario = dbInvoiceScenarioFixture.createRejectedInvoiceScenario();
+        invoiceCacheLoader.load();
+
+        assertTrue(invoiceCache.isActive());
+        assertFalse(invoiceCachedDecisionService.canConfirmPayment(scenario.getInvoice().getId()));
     }
 
     private void dropScenarioTables() {

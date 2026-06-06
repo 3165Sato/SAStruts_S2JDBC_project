@@ -25,6 +25,13 @@ public class DbScenarioInvoiceDao {
         return invoices.get(0);
     }
 
+    public List<DbScenarioInvoice> findAll() {
+        return jdbcManager.selectBySql(
+                DbScenarioInvoice.class,
+                "select ID, CUSTOMER_ID, DEPARTMENT_ID, TITLE, AMOUNT, STATUS "
+                        + "from DB_SCENARIO_INVOICE order by ID").getResultList();
+    }
+
     public int updateStatus(Long id, String status) {
         return jdbcManager.updateBySql(
                 "update DB_SCENARIO_INVOICE set STATUS = ? where ID = ?",

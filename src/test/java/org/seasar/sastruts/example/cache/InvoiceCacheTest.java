@@ -28,6 +28,7 @@ public class InvoiceCacheTest {
     public void setUp() {
         assertNotNull(invoiceCache);
         invoiceCache.clear();
+        invoiceCache.deactivate();
     }
 
     // putした請求書をgetでき、件数とcontainsで存在を確認できる。
@@ -36,6 +37,7 @@ public class InvoiceCacheTest {
         DbScenarioInvoice invoice = createInvoice(Long.valueOf(1L), "APPROVED");
 
         invoiceCache.put(invoice);
+        invoiceCache.activate();
 
         DbScenarioInvoice cached = invoiceCache.get(Long.valueOf(1L));
         assertNotNull(cached);
@@ -48,6 +50,7 @@ public class InvoiceCacheTest {
     @Test
     public void testEvictInvoice() {
         invoiceCache.put(createInvoice(Long.valueOf(1L), "APPROVED"));
+        invoiceCache.activate();
 
         invoiceCache.evict(Long.valueOf(1L));
 
@@ -73,11 +76,32 @@ public class InvoiceCacheTest {
     @Test
     public void testGetReturnsCopiedInvoice() {
         invoiceCache.put(createInvoice(Long.valueOf(1L), "APPROVED"));
+        invoiceCache.activate();
 
         DbScenarioInvoice cached = invoiceCache.get(Long.valueOf(1L));
         cached.setStatus("REJECTED");
 
         assertEquals("APPROVED", invoiceCache.get(Long.valueOf(1L)).getStatus());
+    }
+
+    // active化前にgetすると、DB投入後のCacheロード漏れを表すCache not activeになることを確認する。
+    @Test(expected = IllegalStateException.class)
+    public void testGetInactiveCacheThrowsException() {
+        invoiceCache.put(createInvoice(Long.valueOf(1L), "APPROVED"));
+
+        invoiceCache.get(Long.valueOf(1L));
+    }
+
+    // activate/deactivateによりキャッシュ参照可能状態を切り替えられることを確認する。
+    @Test
+    public void testActivateAndDeactivate() {
+        assertFalse(invoiceCache.isActive());
+
+        invoiceCache.activate();
+        assertTrue(invoiceCache.isActive());
+
+        invoiceCache.deactivate();
+        assertFalse(invoiceCache.isActive());
     }
 
     private DbScenarioInvoice createInvoice(Long id, String status) {

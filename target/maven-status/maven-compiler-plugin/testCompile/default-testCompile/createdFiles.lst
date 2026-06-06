@@ -8,6 +8,7 @@ org\seasar\sastruts\example\testsupport\DbInvoiceScenario.class
 org\seasar\sastruts\example\service\InvoiceServiceTest.class
 org\seasar\sastruts\example\service\InvoicePaymentConfirmServiceTest$FailingDbApprovalHistoryDao.class
 org\seasar\sastruts\example\logic\InvoicePaymentConfirmValidationLogicTest.class
+org\seasar\sastruts\example\service\InvoiceCachedDecisionServiceTest.class
 org\seasar\sastruts\example\testsupport\DbInvoiceScenarioFixture.class
 org\seasar\sastruts\example\logic\InvoiceAmountLogicTest.class
 org\seasar\sastruts\example\testsupport\DbDepartmentTestDataBuilder.class
@@ -19,4 +20,5 @@ org\seasar\sastruts\example\logic\InvoiceValidationLogicTest.class
 org\seasar\sastruts\example\testsupport\DbInvoiceFixture.class
 org\seasar\sastruts\example\testsupport\SqlTestSupport.class
 org\seasar\sastruts\example\testsupport\DbCustomerTestDataBuilder.class
+org\seasar\sastruts\example\cache\InvoiceCacheLoaderTest.class
 org\seasar\sastruts\example\testsupport\DbApprovalHistoryTestDataBuilder.class

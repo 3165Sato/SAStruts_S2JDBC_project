@@ -14,7 +14,12 @@ public class InvoiceCache {
     private final Map<Long, DbScenarioInvoice> invoices =
             new LinkedHashMap<Long, DbScenarioInvoice>();
 
+    private boolean active;
+
     public DbScenarioInvoice get(Long invoiceId) {
+        if (!active) {
+            throw new IllegalStateException("Cache not active");
+        }
         return copy(invoices.get(invoiceId));
     }
 
@@ -31,6 +36,18 @@ public class InvoiceCache {
 
     public void clear() {
         invoices.clear();
+    }
+
+    public void activate() {
+        active = true;
+    }
+
+    public void deactivate() {
+        active = false;
+    }
+
+    public boolean isActive() {
+        return active;
     }
 
     public boolean contains(Long invoiceId) {

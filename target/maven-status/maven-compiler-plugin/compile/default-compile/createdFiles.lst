@@ -8,6 +8,7 @@ org\seasar\sastruts\example\logic\InvoiceValidationLogic.class
 org\seasar\sastruts\example\dao\DbDepartmentDao.class
 org\seasar\sastruts\example\service\InvoicePaymentConfirmService.class
 org\seasar\sastruts\example\entity\DbScenarioInvoice.class
+org\seasar\sastruts\example\cache\InvoiceCacheLoader.class
 org\seasar\sastruts\example\logic\InvoiceWorkflowLogic.class
 org\seasar\sastruts\example\service\InvoiceCachedReferenceService.class
 org\seasar\sastruts\example\entity\Invoice.class
@@ -20,4 +21,5 @@ org\seasar\sastruts\example\logic\InvoiceAmountLogic.class
 org\seasar\sastruts\example\dao\DbCustomerDao.class
 org\seasar\sastruts\example\entity\DbCustomer.class
 org\seasar\sastruts\example\dao\DbApprovalHistoryDao.class
+org\seasar\sastruts\example\service\InvoiceCachedDecisionService.class
 org\seasar\sastruts\example\service\InvoiceService.class
