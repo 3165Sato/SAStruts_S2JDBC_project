@@ -186,7 +186,34 @@ Git差分でレビューしやすく、複数TABLEや固定マスタの準備に
 
 このように役割を分けることで、Excelテストデータへの依存を減らしつつ、レビューしやすさ、AIによる生成しやすさ、保守性を両立しやすくなる。
 
-## 8.1 テストパッケージ構成の整理
+## 8.1 脱Excel方式でキャッシュを使う場合の確認事項
+
+Excel形式のテストデータをSQL / Builder / Fixture / Scenario Fixtureへ置き換える場合、H2 DBへの投入だけでなく、DB投入後にアプリケーション側キャッシュがExcel方式と同じ状態になっているかを確認する必要がある。
+
+特に、Excel方式で「ExcelテストデータをH2へ投入し、その後一部テーブルをH2からキャッシュへロードする」構成になっている場合、脱Excel方式でも同じ初期化フローを再現しなければならない。SQL / Builder / FixtureでH2へ直接データを投入しても、cache load / reloadが呼ばれていなければ、DBにはデータが存在するのにキャッシュ参照時に `Cache not active` になる可能性がある。
+
+脱Excel方式へ移行する際の確認事項は以下である。
+
+- 脱Excel投入前のcache状態
+  - テスト開始時点でcacheが `clear` / `deactivate` され、前テストの状態が残っていないこと
+  - active / inactive の初期状態がテストの前提として明確であること
+- Excel投入、脱Excel投入、cache loadの実行順序
+  - Excel方式で `Excel投入 -> H2 DB -> cache load` の順に動いていた場合、脱Excel方式でも `SQL / Builder / Fixture投入 -> H2 DB -> cache load` の順序を再現すること
+  - `@PostBindFields`、`setUp`、S2JUnit4のExcel自動投入、テストメソッド内の処理順序を混同しないこと
+- 脱Excel投入先の `DataSource` / schema / transaction
+  - SQL / Fixtureの投入先DataSourceが、cache loadが参照するDataSourceと一致していること
+  - schemaや接続URLがExcel方式と同じであること
+  - テストトランザクション内に投入したデータを、cache load側が参照できるタイミングで読み込んでいること
+- Excel方式と脱Excel方式で同一テーブルに二重投入していないか
+  - S2JUnit4のExcel自動投入が残ったままSQL / Fixture投入を追加すると、同一テーブルへの二重投入になる可能性がある
+  - 主キー重複、件数不一致、想定外の古いデータ混在が起きていないこと
+- 脱Excel投入後にcache reloadすれば動作するか
+  - DB投入後に `cache load` / `cache reload` を明示的に呼ぶことで動く場合、原因はテストデータ不足ではなくキャッシュ初期化漏れである可能性が高い
+  - その場合、テスト側の共通初期化処理にcache reloadを追加するのが最小対応になる
+
+この確認により、脱Excel方式の問題を「DB投入に失敗している」のか、「DB投入後のキャッシュ初期化が不足している」のかに切り分けやすくなる。
+
+## 8.2 テストパッケージ構成の整理
 
 main側では、Service層とLogic層の責務を分けている。これに合わせて、test側のテストクラスもLogic層テストとService/Application層テストに分離した。
 

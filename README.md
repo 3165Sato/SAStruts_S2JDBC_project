@@ -247,6 +247,24 @@ Git差分でレビューしやすく、複数TABLEやマスタデータの準備
 
 この検証では、Builder / Fixture / Scenario Fixture / SQLファイル方式を置き換え関係ではなく、用途に応じて併用する方針としています。
 
+## 脱Excel方式でキャッシュを使う場合の確認事項
+
+Excel形式のテストデータをSQL / Builder / Fixture / Scenario Fixtureへ置き換える場合、DB投入だけでなく、DB投入後にアプリケーション側キャッシュがExcel方式と同じ状態になっているかを確認する必要があります。
+
+特に、H2へ投入したデータを一部テーブルからキャッシュへロードする構成では、以下を確認します。
+
+- 脱Excel投入前のcache状態が明確であること
+  - テスト開始時点で `clear` / `deactivate` などにより、前テストのcacheが残っていないこと
+- Excel投入、脱Excel投入、cache loadの実行順序が明確であること
+  - Excel方式で `H2投入 -> cache load` が行われていた場合、脱Excel方式でも `SQL / Fixture投入 -> cache load` の順序を再現すること
+- 脱Excel投入先の `DataSource` / schema / transaction がExcel方式と一致していること
+  - 別DataSourceや別schemaへ投入していると、cache load対象のDB状態とずれる可能性がある
+  - テストトランザクション内外の違いにより、cache load時に投入データが見えない可能性がある
+- Excel方式と脱Excel方式で同一テーブルへ二重投入していないこと
+  - S2JUnit4のExcel自動投入と、SQL / Fixture投入を同時に有効化すると、主キー重複や想定外の件数になる可能性がある
+- 脱Excel投入後にcache reloadすれば動作するか確認すること
+  - DB投入後に `cache reload` / `cache load` を明示的に呼ぶことで動く場合、原因はDB投入不足ではなくcache初期化漏れである可能性が高い
+
 ## テストパッケージ構成
 
 main側では `service` パッケージに業務Service、DBアクセスService、処理フロー制御を置き、`logic` パッケージに入力検証、状態遷移判定、金額変更判定、履歴Entity生成などの業務ロジックを置いています。

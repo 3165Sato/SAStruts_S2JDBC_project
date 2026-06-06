@@ -78,6 +78,11 @@ AI生成テストは、テストコード作成の効率化に有効である。
 - [ ] テストデータの重複が過剰でない
 - [ ] 項目追加時に修正箇所が局所化されている
 - [ ] テスト固有の値変更はBuilderの上書きメソッドなどで表現されている
+- [ ] 脱Excel投入前のcache状態が `clear` / `deactivate` などで初期化されている
+- [ ] Excel投入、脱Excel投入、cache load / reload の実行順序が明確である
+- [ ] 脱Excel投入先の `DataSource` / schema / transaction がExcel方式と一致している
+- [ ] Excel方式と脱Excel方式で同一テーブルに二重投入していない
+- [ ] 脱Excel投入後にcache reloadすれば動作するかを切り分けている
 
 ## 8. AI生成テストでありがちな問題
 
