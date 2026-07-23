@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>国内FX仕様比較ダッシュボード</title>
+<style>
+:root{--bg:#f5f7fa;--panel:#fff;--text:#182230;--muted:#667085;--line:#d0d5dd;--dark:#101828;--accent:#175cd3;--warn:#b54708;--ok:#067647}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans JP",sans-serif}
+header{background:var(--dark);color:#fff;padding:22px 30px;position:sticky;top:0;z-index:20}
+header h1{margin:0;font-size:24px} header p{margin:7px 0 0;color:#d0d5dd;font-size:14px}
+main{max-width:1450px;margin:auto;padding:24px}
+.tabs,.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+button{background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 13px;cursor:pointer;font-weight:600}
+button.active{background:var(--dark);color:#fff;border-color:var(--dark)}
+.panel{display:none} .panel.active{display:block}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.04)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px} .kpi{font-size:27px;font-weight:750} .muted{color:var(--muted);font-size:13px}
+.table-wrap{overflow:auto;max-height:68vh;border:1px solid var(--line);border-radius:10px}
+table{border-collapse:separate;border-spacing:0;width:100%;font-size:13px;background:#fff}
+th,td{border-right:1px solid #eaecf0;border-bottom:1px solid #eaecf0;padding:9px;vertical-align:top;min-width:170px}
+th{background:#f2f4f7;position:sticky;top:0;z-index:5;text-align:left}
+th:first-child,td:first-child{position:sticky;left:0;z-index:4;background:#fff;min-width:105px;font-weight:700}
+th:nth-child(2),td:nth-child(2){position:sticky;left:105px;z-index:4;background:#fff;min-width:170px}
+th:first-child,th:nth-child(2){background:#e4e7ec;z-index:7}
+.diff{background:#fff4ed!important} .common{color:#667085}
+.badge{display:inline-block;padding:3px 8px;border-radius:999px;font-size:12px;font-weight:700}
+.b-ok{background:#ecfdf3;color:var(--ok)} .b-warn{background:#fff4ed;color:var(--warn)} .b-info{background:#eff8ff;color:var(--accent)}
+.company-checks{display:grid;grid-template-columns:repeat(4,1fr);gap:6px 14px} label{font-size:13px}
+.summary-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.axis-card{border-left:5px solid #667085}
+.axis-card h3{margin-top:0} ul{padding-left:20px}
+input[type=search]{padding:9px 12px;border:1px solid var(--line);border-radius:8px;min-width:280px}
+@media(max-width:900px){.kpis,.summary-grid,.company-checks{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header><h1>国内FX事業者 仕様比較ダッシュボード</h1>
+<p>11社×9軸の統合マトリクスを、差分確認・類型把握・証拠金状態比較向けに再構成</p></header>
+<main>
+<div class="tabs">
+<button class="active" data-panel="matrix">全体比較</button>
+<button data-panel="margin">証拠金状態</button>
+<button data-panel="patterns">類型分析</button>
+<button data-panel="review">レビュー観点</button>
+</div>
+
+<section id="matrix" class="panel active">
+<div class="kpis">
+<div class="card"><div class="muted">比較対象</div><div class="kpi">11社</div></div>
+<div class="card"><div class="muted">比較軸</div><div class="kpi">9軸</div></div>
+<div class="card"><div class="muted">主要項目</div><div class="kpi">11項目</div></div>
+<div class="card"><div class="muted">用途</div><div class="kpi">差分レビュー</div></div>
+</div>
+<div class="card">
+<div class="filters">
+<button class="axis active" data-axis="all">すべて</button>
+<button class="axis" data-axis="スワップ">スワップ</button><button class="axis" data-axis="ロスカット">ロスカット</button><button class="axis" data-axis="ロールオーバー">ロールオーバー</button><button class="axis" data-axis="値洗い">値洗い</button><button class="axis" data-axis="時間">時間</button><button class="axis" data-axis="注文">注文</button><button class="axis" data-axis="約定">約定</button><button class="axis" data-axis="証拠金">証拠金</button><button class="axis" data-axis="追証">追証</button>
+<button id="diffOnly">差分のみ強調</button>
+<input type="search" id="search" placeholder="項目・仕様を検索">
+</div>
+<details><summary><strong>表示会社を選択</strong></summary>
+<div class="company-checks" id="checks"></div></details>
+</div>
+<div class="card">
+<div class="table-wrap"><table id="matrixTable"></table></div>
+</div>
+</section>
+
+<section id="margin" class="panel">
+<div class="card">
+<h2>11社比較：証拠金状態計算</h2>
+<p class="muted">維持率を「分子・分母・注文証拠金の扱い」へ正規化して比較。</p>
+<div class="table-wrap"><table>
+<thead><tr><th>会社</th><th>分子</th><th>分母</th><th>注文証拠金</th><th>監視周期</th><th>ロスカット</th><th>追証</th><th>特徴</th></tr></thead>
+<tbody><tr><td>GMOクリック証券</td><td>時価評価総額</td><td>必要証拠金</td><td>控除なし</td><td>約1分</td><td>50%</td><td>あり</td><td>多数派の基本類型</td></tr><tr><td>DMM.com証券</td><td>純資産－注文証拠金</td><td>ポジション証拠金</td><td>分子から控除</td><td>動的</td><td>50%</td><td>あり</td><td>注文控除型</td></tr><tr><td>外為どっとコム</td><td>有効評価額</td><td>必要保証金額</td><td>控除なし</td><td>5～10秒</td><td>50～100%</td><td>なし</td><td>週次基準レート</td></tr><tr><td>SBI FXトレード</td><td>資産評価額</td><td>取引必要証拠金</td><td>控除なし</td><td>20秒</td><td>50%</td><td>あり</td><td>日次基準・二段階アラート</td></tr><tr><td>SBI証券</td><td>実質保証金</td><td>必要保証金</td><td>控除なし</td><td>1秒</td><td>30～90%</td><td>あり</td><td>レバレッジコース別</td></tr><tr><td>セントラル短資FX</td><td>口座清算価値</td><td>維持証拠金</td><td>控除なし</td><td>検知ベース</td><td>50/100%</td><td>なし</td><td>分母が維持証拠金</td></tr><tr><td>ヒロセ通商</td><td>有効証拠金額</td><td>必要証拠金額</td><td>控除なし</td><td>1～10秒</td><td>100%</td><td>なし</td><td>定額下限と率方式</td></tr><tr><td>みんなのFX</td><td>純資産額</td><td>必要証拠金</td><td>別途考慮</td><td>動的</td><td>100%</td><td>なし</td><td>注文分を別途必要と明示</td></tr><tr><td>外為オンライン</td><td>有効証拠金</td><td>取引証拠金</td><td>控除なし</td><td>1分以内</td><td>20/100%</td><td>なし</td><td>猶予なし即時判定</td></tr><tr><td>松井証券</td><td>純資産－注文証拠金</td><td>ポジション必要証拠金</td><td>分子から控除</td><td>60/300秒</td><td>50～90%</td><td>あり</td><td>DMMと同系統</td></tr><tr><td>楽天証券</td><td>純資産評価額</td><td>必要証拠金</td><td>控除なし</td><td>3秒</td><td>20～95%</td><td>あり</td><td>コース制・可変閾値</td></tr></tbody>
+</table></div>
+</div>
+<div class="summary-grid">
+<div class="card axis-card"><h3>多数派</h3><p><span class="badge b-ok">9社</span></p><p>純資産系 ÷ 必要証拠金系。注文証拠金を維持率分子から直接控除しない。</p></div>
+<div class="card axis-card"><h3>注文控除型</h3><p><span class="badge b-warn">DMM・松井</span></p><p>純資産から注文証拠金を控除するため、未約定注文が増えるほど維持率が低下。</p></div>
+<div class="card axis-card"><h3>設計上の分離</h3><p>維持率の計算式、ロスカット閾値、追証制度、監視周期は別ポリシーとして管理する。</p></div>
+<div class="card axis-card"><h3>DemoFX標準案</h3><p>多数派を標準とし、DMM・松井型は差替え可能な計算ポリシーとして実装。</p></div>
+</div>
+</section>
+
+<section id="patterns" class="panel">
+<div class="summary-grid">
+<div class="card axis-card"><h3>A：追証あり・50%型</h3><p>GMO、DMM、SBI FXトレード</p><p class="muted">追証を併設し、ロスカットは低水準の最終防衛線。</p></div>
+<div class="card axis-card"><h3>B：追証あり・コース／可変型</h3><p>SBI証券、松井、楽天</p><p class="muted">レバレッジコースと可変閾値を組み合わせる証券会社系。</p></div>
+<div class="card axis-card"><h3>C：追証なし・高水準型</h3><p>外為どっとコム、セントラル短資、ヒロセ、みんなのFX</p><p class="muted">高いロスカット水準で追証制度を実質的に代替。</p></div>
+<div class="card axis-card"><h3>D：即時強制決済型</h3><p>外為オンライン</p><p class="muted">日次判定時に猶予を設けず強制決済する独自類型。</p></div>
+</div>
+</section>
+
+<section id="review" class="panel">
+<div class="card">
+<h2>このHTMLで見つけやすくなるレビュー論点</h2>
+<ul>
+<li><strong>規制由来の共通仕様に差がある場合：</strong>収集ミスまたは制度解釈の誤りを疑う。</li>
+<li><strong>「記載なし」と「未取得」：</strong>不存在確認済みと調査未了を混同しない。</li>
+<li><strong>維持率式：</strong>分子・分母・注文証拠金処理を一つの文字列で扱わず分解する。</li>
+<li><strong>閾値：</strong>固定、可変、コース別、時間帯別を同一項目へ埋め込まない。</li>
+<li><strong>監視周期：</strong>状態計算周期とロスカット監視周期を分離する。</li>
+</ul>
+</div>
+</section>
+</main>
+
+<script>
+const companies=["GMOクリック証券\n(FXネオ)", "DMM.com証券\n(DMM FX)", "外為どっとコム\n(外貨ネクストネオ)", "SBI FXトレード\n(SBI FXTRADE)", "SBI証券\n(SBI FX)", "セントラル短資FX\n(FXダイレクトプラス)", "ヒロセ通商\n(LION FX)", "トレイダーズ証券\n(みんなのFX)", "外為オンライン\n(従来系)", "松井証券\n(MATSUI FX)", "楽天証券\n(楽天FX)"];
+const rows=[{"axis": "値洗い", "item": "建玉評価レート", "values": ["買=Bid／売=Ask", "記載なし", "買=Bid／売=Ask", "記載なし", "記載なし", "記載なし", "買=Bid／売=Ask", "記載なし", "記載なし", "買建玉=Bid／売建玉=Ask", "画面は買=Bid／売=Ask、帳票はMid"]}, {"axis": "ロスカット", "item": "個人ロスカット水準", "values": ["50%固定", "50%固定", "50～100%可変", "50%固定", "30～90%可変", "50%／100%", "100%固定", "100%固定", "20%／100%", "50～90%可変", "20～95%コース別"]}, {"axis": "ロスカット", "item": "監視周期", "values": ["約1分", "動的・原則1分以内", "5～10秒", "原則20秒", "原則1秒", "検知ベース", "1～10秒", "動的", "原則1分以内", "60秒／300秒", "原則3秒"]}, {"axis": "証拠金", "item": "個人証拠金率", "values": ["4%", "4%", "4%（RUB/JPY 6%）", "4%（BRL 10%、RUB 33%等）", "4～100%コース制", "4%（TRY/JPY新規20倍）", "通貨別方式", "4%", "4%", "4/10/20/100%", "4/10/20/50/100%"]}, {"axis": "証拠金", "item": "両建て時", "values": ["MAX方式", "両方満額", "MAX方式", "MAX方式", "MAX方式", "MAX方式", "MAX方式", "MAX方式", "MAX方式", "MAX方式", "MAX方式"]}, {"axis": "追証", "item": "追証制度", "values": ["あり", "あり", "なし", "あり", "あり", "なし", "なし", "なし", "なし", "あり", "あり"]}, {"axis": "スワップ", "item": "実現方式", "values": ["日次実現", "累積＋振替", "累積＋振替", "資産評価額へ算入", "決済時実現", "累積＋振替", "累積＋振替", "累積＋受取機能", "決済時実現", "累積＋振替", "決済時実現＋振替可"]}, {"axis": "ロールオーバー", "item": "決済損益の現金化", "values": ["即日", "T+2", "T+2", "T+2", "T+2", "T+2", "T+2", "T+2", "T+2", "T+2", "T+2"]}, {"axis": "注文", "item": "特徴", "values": ["7種、トレールなし", "9種、クイック決済", "トレール・時間指定・連続注文", "トレールあり", "現引あり", "建玉整理あり", "27種", "FIFO・時間成行", "iサイクル2", "リピート注文", "ASストリーミング"]}, {"axis": "約定", "item": "スリッページ", "values": ["超過時全数量拒否", "即時注文のみ", "有利方向は幅超でも約定", "不利超過失効", "2WAYで幅指定", "超過失効", "指値は原則なし", "0～999pips", "有利も上限価格で約定", "超過は約定しない", "0.0～99.9pips"]}, {"axis": "時間", "item": "日次メンテナンス", "values": ["FX固有なし", "記載なし", "10～15分", "30分", "30分", "15分", "約10分", "20分前後", "10分", "15分", "15分"]}];
+let activeAxis='all', diffMode=false;
+const selected=new Set(companies);
+
+function esc(s){return String(s??'').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;')}
+function renderChecks(){
+ const c=document.getElementById('checks'); c.innerHTML='';
+ companies.forEach((x,i)=>{const l=document.createElement('label');l.innerHTML=`<input type="checkbox" data-i="${i}" checked> ${esc(x).replace('\n',' ')}`;c.appendChild(l)})
+ c.querySelectorAll('input').forEach(x=>x.onchange=e=>{const i=+e.target.dataset.i;e.target.checked?selected.add(companies[i]):selected.delete(companies[i]);renderTable()})
+}
+function renderTable(){
+ const q=document.getElementById('search').value.toLowerCase();
+ const idx=companies.map((c,i)=>selected.has(c)?i:-1).filter(i=>i>=0);
+ let h='<thead><tr><th>軸</th><th>項目</th>'+idx.map(i=>`<th>${esc(companies[i]).replace('\n','<br>')}</th>`).join('')+'</tr></thead><tbody>';
+ rows.filter(r=>(activeAxis==='all'||r.axis===activeAxis)&&(!q||JSON.stringify(r).toLowerCase().includes(q))).forEach(r=>{
+   const vals=idx.map(i=>r.values[i]); const distinct=new Set(vals).size>1;
+   h+=`<tr><td>${esc(r.axis)}</td><td>${esc(r.item)}</td>`+vals.map(v=>`<td class="${diffMode&&distinct?'diff':'common'}">${esc(v)}</td>`).join('')+'</tr>';
+ });
+ h+='</tbody>';document.getElementById('matrixTable').innerHTML=h;
+}
+document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tabs button').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.getElementById(b.dataset.panel).classList.add('active')})
+document.querySelectorAll('.axis').forEach(b=>b.onclick=()=>{document.querySelectorAll('.axis').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeAxis=b.dataset.axis;renderTable()})
+document.getElementById('diffOnly').onclick=e=>{diffMode=!diffMode;e.target.classList.toggle('active',diffMode);renderTable()}
+document.getElementById('search').oninput=renderTable;
+renderChecks();renderTable();
+</script>
+</body></html>
